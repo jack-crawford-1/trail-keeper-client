@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import './index.css'
 
 function App() {
@@ -15,12 +16,11 @@ function App() {
             opportunities.
           </p>
 
-          <button
-            onClick={() => {}}
-            className="bg-slate-700 shadow-lg shadow-blue-300	hover:bg-slate-500 hover:scale-110 transform duration-300 ease-in-out py-2 px-6 rounded-lg text-white m-5 "
-          >
-            Sign Up
-          </button>
+          <Link to="/signup">
+            <button className="bg-slate-600 shadow-lg shadow-gray-500 hover:bg-slate-700 hover:scale-110 transform duration-300 ease-in-out py-2 px-6 rounded-lg text-white m-5">
+              Sign Up
+            </button>
+          </Link>
         </div>
       </div>
     </>

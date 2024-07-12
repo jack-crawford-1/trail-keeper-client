@@ -1,12 +1,14 @@
 import '../styles/index.css'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useUser } from '../hooks/useUser'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
+  const { setUser } = useUser()
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
@@ -35,6 +37,7 @@ export default function Login() {
       const data = await response.json()
       localStorage.setItem('user', JSON.stringify(data.user))
       localStorage.setItem('token', data.token)
+      setUser(data.user)
       navigate('/userProfile', { state: { user: data.user } })
     } catch (error) {
       console.error('Error:', error)

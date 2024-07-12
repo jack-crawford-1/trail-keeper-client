@@ -8,6 +8,7 @@ import App from '../App'
 import Home from '../pages/Home'
 import UserProfile from '../pages/UserProfile'
 import Login from '../pages/Login'
+import Logout from '../pages/Logout'
 import Dashboard from '../pages/Dashboard'
 
 const router = createBrowserRouter(
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
         <Route index element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/userprofile" element={<UserProfile />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>

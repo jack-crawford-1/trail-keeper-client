@@ -16,7 +16,7 @@ export default function Home() {
           </p>
 
           <Link to="/signup">
-            <button className="bg-slate-600 shadow-lg shadow-gray-500 hover:bg-slate-700 hover:scale-110 transform duration-300 ease-in-out py-2 px-6 rounded-lg text-white m-5">
+            <button className="bg-slate-600 shadow-lg hover:shadow-gray-500 hover:bg-slate-700 hover:scale-110 transform duration-300 ease-in-out py-2 px-6 rounded-lg text-white m-5">
               Sign Up
             </button>
           </Link>

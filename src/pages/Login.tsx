@@ -33,6 +33,7 @@ export default function Login() {
       }
 
       const data = await response.json()
+      localStorage.setItem('user', JSON.stringify(data.user))
       localStorage.setItem('token', data.token)
       navigate('/userProfile', { state: { user: data.user } })
     } catch (error) {

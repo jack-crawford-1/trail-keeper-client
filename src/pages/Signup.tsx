@@ -114,6 +114,11 @@ export default function Signup() {
           Login here
         </Link>
       </p>
+      <p className="mt-4">
+        <Link to="/dashboard" className="text-blue-500">
+          View Dashboard
+        </Link>
+      </p>
     </div>
   )
 }

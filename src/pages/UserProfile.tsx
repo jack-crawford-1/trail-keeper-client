@@ -1,5 +1,5 @@
 import '../styles/index.css'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Nav from '../components/Nav'
 import { useEffect } from 'react'
 
@@ -22,7 +22,7 @@ export default function UserProfile() {
 
   return (
     <>
-      <Nav isLoggedIn={true} userName={name} />
+      <Nav />
       <div className="flex items-center justify-center min-h-screen p-2 antialiased">
         <div className="text-center">
           <div className="text-xl">
@@ -30,6 +30,11 @@ export default function UserProfile() {
           </div>
           <div className="text-gray-500">Username: {name}</div>
           <div className="text-gray-500">Email: {email}</div>
+          <div className="pt-3">
+            <Link to="/dashboard" className="text-blue-500">
+              View Dashboard
+            </Link>
+          </div>
         </div>
       </div>
     </>

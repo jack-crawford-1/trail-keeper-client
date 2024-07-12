@@ -1,12 +1,19 @@
 import '../styles/index.css'
 import { useLocation, useNavigate } from 'react-router-dom'
+import Nav from './Nav'
+import { useEffect } from 'react'
 
 export default function UserProfile() {
   const location = useLocation()
   const navigate = useNavigate()
 
+  useEffect(() => {
+    if (!location.state || !location.state.user) {
+      navigate('/')
+    }
+  }, [location, navigate])
+
   if (!location.state || !location.state.user) {
-    navigate('/')
     return null
   }
 
@@ -14,14 +21,17 @@ export default function UserProfile() {
   const { name, email } = user
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-2 antialiased">
-      <div className="text-center">
-        <div className="text-xl">
-          Welcome <span className="font-bold text-slate-700">{name}!</span>
+    <>
+      <Nav isLoggedIn={true} userName={name} />
+      <div className="flex items-center justify-center min-h-screen p-2 antialiased">
+        <div className="text-center">
+          <div className="text-xl">
+            Welcome <span className="font-bold text-slate-700">{name}!</span>
+          </div>
+          <div className="text-gray-500">Username: {name}</div>
+          <div className="text-gray-500">Email: {email}</div>
         </div>
-        <div className="text-gray-500">Username: {name}</div>
-        <div className="text-gray-500">Email: {email}</div>
       </div>
-    </div>
+    </>
   )
 }

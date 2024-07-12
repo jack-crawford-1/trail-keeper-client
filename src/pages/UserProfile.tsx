@@ -1,6 +1,6 @@
 import '../styles/index.css'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Nav from './Nav'
+import Nav from '../components/Nav'
 import { useEffect } from 'react'
 
 export default function UserProfile() {

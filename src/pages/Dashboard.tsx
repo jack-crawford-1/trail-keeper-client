@@ -1,14 +1,9 @@
-import Nav from './Nav'
+import Nav from '../components/Nav'
 
 export default function Dashboard() {
-  const user = JSON.parse(localStorage.getItem('user') || '{}')
-  const userName = user.name || ''
-
-  console.log(user)
-
   return (
     <div>
-      <Nav isLoggedIn={!!userName} userName={userName} />
+      <Nav />
       <h1>Dashboard</h1>
     </div>
   )

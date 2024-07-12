@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom'
+import { useUser } from '../hooks/useUser'
 
-export default function Nav({
-  isLoggedIn,
-  userName,
-}: {
-  isLoggedIn: boolean
-  userName: string
-}) {
+export default function Nav() {
+  const { user } = useUser()
+  const userName = user?.name || ''
+
   return (
     <nav className="p-5 bg-slate-500">
       <div className="container mx-auto flex justify-between items-center">
@@ -18,7 +16,7 @@ export default function Nav({
           </li>
         </ul>
         <ul className="flex space-x-4">
-          {isLoggedIn ? (
+          {userName ? (
             <>
               <li>
                 <Link

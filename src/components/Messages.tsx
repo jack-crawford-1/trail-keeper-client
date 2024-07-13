@@ -28,8 +28,8 @@ function Messages() {
     <div>
       <h2 className="font-bold m-3">Messages</h2>
       <ul>
-        {messages.map((message) => (
-          <li key={message.id} className="text-sm">
+        {messages.map((message, index) => (
+          <li key={`${message.id}-${index}`} className="text-sm">
             <strong>Message:</strong> {message.message} <br />
             <strong>Created At:</strong>{' '}
             {new Date(message.created_at).toLocaleDateString()}
@@ -39,5 +39,4 @@ function Messages() {
     </div>
   )
 }
-
 export default Messages

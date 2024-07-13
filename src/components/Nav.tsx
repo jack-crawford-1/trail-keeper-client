@@ -6,12 +6,12 @@ export default function Nav() {
   const userName = user?.name || ''
 
   return (
-    <nav className="p-5 bg-slate-500">
+    <nav className="p-5 bg-slate-800">
       <div className="container mx-auto flex justify-between items-center">
         <ul className="flex space-x-4">
           <li>
             <Link to="/" className="text-white hover:text-gray-200">
-              Home
+              Trail Mate
             </Link>
           </li>
         </ul>
@@ -23,7 +23,7 @@ export default function Nav() {
                   to="/userProfile"
                   className="text-white hover:text-gray-200"
                 >
-                  Logged in user: {userName}
+                  Logged in as: {userName}
                 </Link>
               </li>
               <li>

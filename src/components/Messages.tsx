@@ -1,18 +1,43 @@
-export default function Messages() {
-  const id = 1
-  const user_id = 1
-  const message = 'Hello from Alice'
-  const created_at = '2024-07-13 05:14:54.858449'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
+interface Message {
+  id: number
+  user_id: number
+  message: string
+  created_at: string
+}
+
+function Messages() {
+  const [messages, setMessages] = useState<Message[]>([])
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3000/v1/messages')
+      .then((response) => {
+        if (Array.isArray(response.data.messages)) {
+          setMessages(response.data.messages)
+        } else {
+          console.error('Unexpected:', response.data)
+        }
+      })
+      .catch((error) => console.error('Error fetching:', error))
+  }, [])
 
   return (
     <div>
       <h2 className="font-bold m-3">Messages</h2>
-      <div className="text-sm">
-        <p>Message {id}:</p>
-        <p>User ID: {user_id}</p>
-        <p>Message: {message}</p>
-        <p>Created At: {new Date(created_at).toLocaleString()}</p>
-      </div>
+      <ul>
+        {messages.map((message) => (
+          <li key={message.id} className="text-sm">
+            <strong>Message:</strong> {message.message} <br />
+            <strong>Created At:</strong>{' '}
+            {new Date(message.created_at).toLocaleDateString()}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
+
+export default Messages

@@ -20,7 +20,6 @@ export default function Dashboard() {
             <Map />
           </div>
           <div className="bg-white text-center p-5 text-2xl col-span-3 row-span-2 ">
-            {/* <Forum /> */}
             <Events />
           </div>
           <div className="bg-white text-center p-5 text-2xl col-span-1 row-span-4 ">
@@ -34,7 +33,6 @@ export default function Dashboard() {
           </div>
 
           <div className="bg-white text-center p-5 text-2xl col-span-3 row-span-2 ">
-            {/* <Events /> */}
             <Forum />
           </div>
           <div className="bg-white text-center p-5 text-2xl col-span-1 row-span-2 ">

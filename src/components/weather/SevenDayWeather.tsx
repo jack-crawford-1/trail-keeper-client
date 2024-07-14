@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { FetchSevenDayWeather } from '../../api/fetchWeather'
 import WeatherData from '../../interface/weatherTypes'
+import IconSwitcher from './weather-icons/IconSwitcher'
 
 export default function SevenDayWeather(): JSX.Element | null {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
@@ -20,22 +21,30 @@ export default function SevenDayWeather(): JSX.Element | null {
   const { daily } = weatherData
 
   return (
-    <div>
+    <div className="bg-gray-200 border-2 rounded">
       <h2 className="font-bold m-3">7 day Forecast</h2>
-      <ul>
-        {daily.time.map((dateStr, index) => {
-          const date = new Date(dateStr).toLocaleDateString('en-GB', {
-            dateStyle: 'full',
-          })
-          return (
-            <li key={index} className="text-sm">
-              <div>{date}</div>
-              <div>{daily.temperature_2m_max[index]}°C</div>
-              <div>{daily.weathercode[index]}</div>
-            </li>
-          )
-        })}
-      </ul>
+      <div className="flex flex-col justify-center items-center">
+        <ul>
+          {daily.time.map((dateStr, index) => {
+            const date = new Date(dateStr).toLocaleDateString('en-NZ', {
+              weekday: 'long',
+              day: 'numeric',
+            })
+
+            return (
+              <li key={index}>
+                <div className="text-lg mb-[-15px] text-slate-900">{date}</div>
+                <div className="flex flex-row items-center">
+                  <IconSwitcher weatherCode={daily.weathercode[index]} />
+                  <div className="text-xl font-bold">
+                    {daily.temperature_2m_max[index]}°C
+                  </div>
+                </div>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
     </div>
   )
 }

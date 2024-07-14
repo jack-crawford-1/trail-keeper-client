@@ -8,7 +8,7 @@ export default function SunSvgIcon() {
       className="max-h-[50px]"
     >
       <defs>
-        <style>{`.sun-cls-1{fill:#efcc00;}.sun-cls-2{fill:none;stroke:#efcc00;stroke-linecap:round;stroke-miterlimit:10;stroke-width:3px;}`}</style>
+        <style>{`.sun-cls-1{fill:#efcc00;}.sun-cls-2{fill:none;stroke:#efcc00;strokeLinecap:round;stroke-miterlimit:10;strokeWidth:3px;}`}</style>
       </defs>
       <title />
       <circle className="sun-cls-1" cx="32" cy="32" r="17" />

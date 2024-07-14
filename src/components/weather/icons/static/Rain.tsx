@@ -6,10 +6,10 @@ export default function RainSvgIcon() {
       viewBox="0 0 64 64"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      className="max-h-[50px]"
+      className="max-h-[100px]"
     >
       <defs>
-        <style>{`.cls-1,.cls-2{fill:none;stroke-linecap:round;stroke-miterlimit:10;stroke-width:3px;}.cls-1{stroke:#0baeff;}.cls-2{stroke:#b9c1c6;}.cls-3{fill:url(#linear-gradient);}.cls-4{fill:url(#linear-gradient-2);}
+        <style>{`.cls-1,.cls-2{fill:none;strokeLinecap:round;stroke-miterlimit:10;strokeWidth:3px;}.cls-1{stroke:#0baeff;}.cls-2{stroke:#b9c1c6;}.cls-3{fill:url(#linear-gradient);}.cls-4{fill:url(#linear-gradient-2);}
     `}</style>
 
         <linearGradient

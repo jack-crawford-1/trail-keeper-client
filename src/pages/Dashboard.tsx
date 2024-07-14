@@ -1,12 +1,12 @@
 import Nav from '../components/Nav'
 import TrailReports from '../components/TrailReports'
-import Weather from '../components/weather/Weather'
 import Map from '../components/Map'
 import Messages from '../components/Messages'
 import Events from '../components/Events'
 import Forum from '../components/Forum'
 import Volunteer from '../components/Volunteer'
 import Trails from '../components/Trails'
+import SevenDayWeather from '../components/weather/SevenDayWeather'
 
 export default function Dashboard() {
   return (
@@ -23,7 +23,7 @@ export default function Dashboard() {
             <Events />
           </div>
           <div className="bg-white text-center p-5 text-2xl col-span-1 row-span-4 ">
-            <Weather />
+            <SevenDayWeather />
           </div>
           <div className="bg-white text-center p-5 text-2xl col-span-1 row-span-2 ">
             <Messages />

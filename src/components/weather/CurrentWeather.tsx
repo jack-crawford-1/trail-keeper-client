@@ -1,15 +1,13 @@
-import RainSvgIcon from './icons/Rain'
-
 import { useEffect, useState } from 'react'
-import { FetchWeather } from '../../api/fetchWeather'
+import { FetchCurrentWeather } from '../../api/fetchWeather'
 import WeatherData from '../../interface/weatherTypes'
 
-export default function Weather(): JSX.Element | null {
+export default function CurrentWeather(): JSX.Element | null {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await FetchWeather()
+      const data = await FetchCurrentWeather()
       setWeatherData(data)
     }
     fetchData()
@@ -25,7 +23,6 @@ export default function Weather(): JSX.Element | null {
     <div>
       <h2 className="font-bold m-3">Current Weather</h2>
       <div className="text-sm">
-        <RainSvgIcon />
         <p>Temperature: {current.temperature_2m}°C</p>
         <p>Feels like: {current.apparent_temperature}°C</p>
         <p>Wind speed: {current.wind_speed_10m} m/s</p>

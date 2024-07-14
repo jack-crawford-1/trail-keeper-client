@@ -21,4 +21,9 @@ export default interface WeatherData {
     winddirection_10m: number
     windgusts_10m: number
   }
+  daily: {
+    time: string[]
+    temperature_2m_max: number[]
+    weathercode: number[]
+  }
 }

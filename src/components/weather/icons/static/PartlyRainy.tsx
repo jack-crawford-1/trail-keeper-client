@@ -10,7 +10,7 @@ export default function PartlyRainySvgIcon() {
     >
       <defs>
         <style>
-          {`.partly-rainy-cls-1{fill:#efcc00;}.partly-rainy-cls-2,.partly-rainy-cls-5,.partly-rainy-cls-6{fill:none;stroke-linecap:round;stroke-miterlimit:10;stroke-width:3px;}.partly-rainy-cls-2{stroke:#efcc00;}.partly-rainy-cls-3{fill:url(#linear-gradient);}.partly-rainy-cls-4{fill:url(#linear-gradient-2);}.partly-rainy-cls-5{stroke:#0baeff;}.partly-rainy-cls-6{stroke:#b9c1c6;}`}
+          {`.partly-rainy-cls-1{fill:#efcc00;}.partly-rainy-cls-2,.partly-rainy-cls-5,.partly-rainy-cls-6{fill:none;strokeLinecap:round;stroke-miterlimit:10;strokeWidth:3px;}.partly-rainy-cls-2{stroke:#efcc00;}.partly-rainy-cls-3{fill:url(#linear-gradient);}.partly-rainy-cls-4{fill:url(#linear-gradient-2);}.partly-rainy-cls-5{stroke:#0baeff;}.partly-rainy-cls-6{stroke:#b9c1c6;}`}
         </style>
         <linearGradient
           gradientTransform="matrix(-1, 0, 0, 1, -82.2, 0)"

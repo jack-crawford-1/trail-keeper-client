@@ -1,6 +1,6 @@
 import Nav from '../components/Nav'
 import TrailReports from '../components/TrailReports'
-import Weather from '../components/Weather'
+import Weather from '../components/weather/Weather'
 import Map from '../components/Map'
 import Messages from '../components/Messages'
 import Events from '../components/Events'

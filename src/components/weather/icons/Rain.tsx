@@ -21,8 +21,8 @@ export default function RainSvgIcon() {
           y1="46.39"
           y2="19.08"
         >
-          <stop offset="0" stop-color="#f2f2f2" />
-          <stop offset="1" stop-color="#cfcfcf" />
+          <stop offset="0" stopColor="#f2f2f2" />
+          <stop offset="1" stopColor="#cfcfcf" />
         </linearGradient>
 
         <linearGradient
@@ -34,8 +34,8 @@ export default function RainSvgIcon() {
           y1="156.64"
           y2="174.29"
         >
-          <stop offset="0.02" stop-color="#fff" />
-          <stop offset="1" stop-color="#fff" stop-opacity="0" />
+          <stop offset="0.02" stopColor="#fff" />
+          <stop offset="1" stopColor="#fff" stopOpacity="0" />
         </linearGradient>
       </defs>
       <title />

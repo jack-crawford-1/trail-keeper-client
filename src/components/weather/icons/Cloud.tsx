@@ -18,8 +18,8 @@ export default function CloudSvgIcon() {
           y1="55.39"
           y2="28.08"
         >
-          <stop offset="0" stop-color="#f2f2f2" />
-          <stop offset="1" stop-color="#cfcfcf" />
+          <stop offset="0" stopColor="#f2f2f2" />
+          <stop offset="1" stopColor="#cfcfcf" />
         </linearGradient>
         <linearGradient
           gradientUnits="userSpaceOnUse"
@@ -29,8 +29,8 @@ export default function CloudSvgIcon() {
           y1="33.86"
           y2="51.51"
         >
-          <stop offset="0.02" stop-color="#fff" />
-          <stop offset="1" stop-color="#fff" stop-opacity="0" />
+          <stop offset="0.02" stopColor="#fff" />
+          <stop offset="1" stopColor="#fff" stopOpacity="0" />
         </linearGradient>
       </defs>
       <title />

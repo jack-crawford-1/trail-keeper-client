@@ -4,6 +4,7 @@ import { Loader } from '@googlemaps/js-api-loader'
 const containerStyle = {
   width: '100%',
   height: '100%',
+  borderRadius: '15px',
 }
 
 // Tararua Forest Park

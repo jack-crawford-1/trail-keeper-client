@@ -21,29 +21,33 @@ export default function SevenDayWeather(): JSX.Element | null {
   const { daily } = weatherData
 
   return (
-    <div className="bg-gray-200 border-2 rounded">
-      <h2 className="font-bold m-3">7 day Forecast</h2>
-      <div className="flex flex-col justify-center items-center">
-        <ul>
-          {daily.time.map((dateStr, index) => {
-            const date = new Date(dateStr).toLocaleDateString('en-NZ', {
-              weekday: 'long',
-              day: 'numeric',
-            })
+    <div className="bg-slate-700">
+      <div className="bg-gray-200 border-2 rounded-xl">
+        <h2 className="font-bold m-3">7 day Forecast</h2>
+        <div className="flex flex-col justify-center items-center">
+          <ul>
+            {daily.time.map((dateStr, index) => {
+              const date = new Date(dateStr).toLocaleDateString('en-NZ', {
+                weekday: 'long',
+                day: 'numeric',
+              })
 
-            return (
-              <li key={index}>
-                <div className="text-lg mb-[-15px] text-slate-900">{date}</div>
-                <div className="flex flex-row items-center">
-                  <IconSwitcher weatherCode={daily.weathercode[index]} />
-                  <div className="text-xl font-bold">
-                    {daily.temperature_2m_max[index]}°C
+              return (
+                <li key={index}>
+                  <div className="text-lg mb-[-15px] text-slate-900">
+                    {date}
                   </div>
-                </div>
-              </li>
-            )
-          })}
-        </ul>
+                  <div className="flex flex-row items-center">
+                    <IconSwitcher weatherCode={daily.weathercode[index]} />
+                    <div className="text-xl font-bold">
+                      {daily.temperature_2m_max[index]}°C
+                    </div>
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
       </div>
     </div>
   )

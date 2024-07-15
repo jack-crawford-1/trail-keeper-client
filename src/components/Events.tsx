@@ -1,44 +1,45 @@
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { Event } from '../interface/eventTypes'
+
 export default function Events() {
-  const events = [
-    {
-      id: 1,
-      user_id: 1,
-      title: 'Trail Cleanup',
-      description: 'Cleaning the main trail',
-      date: '2024-08-15',
-      location: 'Main Trail',
-    },
-    {
-      id: 2,
-      user_id: 2,
-      title: 'Volunteer Meetup',
-      description: 'Meeting for volunteers',
-      date: '2024-09-01',
-      location: 'Community Center',
-    },
-  ]
+  const [events, setEvents] = useState<Event[]>([])
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3000/v1/events')
+      .then((response) => {
+        if (Array.isArray(response.data.events)) {
+          setEvents(response.data.events)
+        } else {
+          console.error('Unexpected:', response.data)
+        }
+      })
+      .catch((error) => console.error('Error fetching:', error))
+  }, [])
 
   return (
-    <div className="">
-      <div className="mb-4">
-        <h2 className="font-bold text-2xl">Upcoming Events</h2>
-      </div>
-      <div className="grid grid-cols-12 gap-4 mb-2 font-semibold text-lg">
-        <div className="col-span-2">Title</div>
-        <div className="col-span-4">Description</div>
-        <div className="col-span-2">Date</div>
-        <div className="col-span-2">Location</div>
-      </div>
-      {events.map((event) => (
-        <div key={event.id} className="grid grid-cols-12 gap-4 text-sm mb-5">
-          <div className="col-span-2">{event.title}</div>
-          <div className="col-span-4">{event.description}</div>
-          <div className="col-span-2">
-            {new Date(event.date).toLocaleDateString()}
-          </div>
-          <div className="col-span-2">{event.location}</div>
+    <div className="bg-slate-00 h-full p-4">
+      <div className="bg-gray-100 h-full rounded-xl p-4">
+        <h2 className="font-bold text-2xl pt-3 mb-4">Upcoming Events</h2>
+        <div className="flex flex-col space-y-4">
+          {events.map((event: Event) => (
+            <div
+              key={event.id}
+              className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md"
+            >
+              <div>
+                <div className="font-semibold text-lg">{event.title}</div>
+                <div className="text-sm">{event.description}</div>
+              </div>
+              <div className="text-sm">
+                <div>{new Date(event.date).toLocaleDateString()}</div>
+                <div>{event.location}</div>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   )
 }

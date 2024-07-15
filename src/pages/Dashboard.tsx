@@ -16,12 +16,13 @@ export default function Dashboard() {
           <Nav />
         </div>
         <div className=" flex-grow grid gap-2 bg-slate-700 grid-cols-6 grid-rows-6">
-          <div className="bg-white text-center  text-2xl col-span-2 row-span-4">
-            <Map />
-          </div>
-          <div className="bg-white text-center  text-2xl col-span-3 row-span-2 ">
+          <div className="bg-white text-center  text-2xl col-span-2 row-span-4 rounded-xl ">
             <Events />
           </div>
+          <div className="bg-slate-700 text-center  text-2xl  col-span-3 row-span-2">
+            <Map />
+          </div>
+
           <div className="bg-white text-center  text-2xl col-span-1 row-span-4 ">
             <SevenDayWeather />
           </div>

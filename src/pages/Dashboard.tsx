@@ -2,7 +2,7 @@ import Nav from '../components/Nav'
 import TrailReports from '../components/TrailReports'
 import Map from '../components/Map'
 import Messages from '../components/Messages'
-import Events from '../components/Events'
+import Events from '../components/eventDir/Events'
 import Forum from '../components/Forum'
 import Volunteer from '../components/Volunteer'
 import Trails from '../components/Trails'
@@ -15,7 +15,7 @@ export default function Dashboard() {
         <div>
           <Nav />
         </div>
-        <div className=" flex-grow grid gap-2 bg-slate-700 grid-cols-6 grid-rows-6">
+        <div className=" flex-grow grid gap-2 bg-slate-700 grid-cols-6 grid-rows-6 p-5">
           <div className="bg-white text-center  text-2xl col-span-2 row-span-4 rounded-xl ">
             <Events />
           </div>

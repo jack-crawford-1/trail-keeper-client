@@ -6,7 +6,7 @@ export default function Nav() {
   const userName = user?.name || ''
 
   return (
-    <nav className="p-5 bg-slate-800">
+    <nav className="p-5 bg-slate-700">
       <div className="container mx-auto flex justify-between items-center">
         <ul className="flex space-x-4">
           <li>

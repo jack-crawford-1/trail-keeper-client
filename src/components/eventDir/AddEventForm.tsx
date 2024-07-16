@@ -3,7 +3,7 @@ import { addEventCall } from '../../api/events'
 //TODO update user_id to be dynamic
 //TODO add state to auto update events list on submit
 
-export default function EventsForm() {
+export default function AddEventForm() {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)

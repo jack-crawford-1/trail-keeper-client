@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { Event } from '../../interface/eventTypes'
+import { Link } from 'react-router-dom'
+import type { Event } from '../../interface/eventTypes'
 
 export default function Events() {
   const [events, setEvents] = useState<Event[]>([])
@@ -22,20 +23,23 @@ export default function Events() {
     <div className="bg-gray-100 h-full p-4 rounded-xl">
       <h2 className="font-bold text-2xl pt-3 mb-4">Upcoming Events</h2>
       <div className="flex flex-col space-y-4">
-        {events.map((event: Event) => (
-          <div
+        {events.map((event) => (
+          <Link
             key={event.id}
+            to={`/event/${event.id}`}
             className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md"
           >
             <div>
-              <div className="font-semibold text-lg">{event.title}</div>
-              <div className="text-sm">{event.description}</div>
+              <div className="font-semibold text-lg text-left">
+                {event.title}
+              </div>
+              <div className="text-sm text-left">{event.description}</div>
             </div>
             <div className="text-sm">
               <div>{new Date(event.date).toLocaleDateString()}</div>
               <div>{event.location}</div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

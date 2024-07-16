@@ -10,6 +10,7 @@ export default function AddEventForm() {
     const event = {
       user_id: 1,
       title: formData.get('title'),
+      short_description: formData.get('short_description'),
       description: formData.get('description'),
       date: formData.get('date'),
       location: formData.get('location'),
@@ -35,6 +36,20 @@ export default function AddEventForm() {
             name="title"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm p-2"
             placeholder="Enter event title"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="short_description"
+            className="block text-left text-sm text-slate-700 mb-1"
+          >
+            Short Description
+          </label>
+          <input
+            type="text"
+            name="short_description"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm p-2"
+            placeholder="Enter short description"
           />
         </div>
         <div>

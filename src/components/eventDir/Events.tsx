@@ -33,7 +33,7 @@ export default function Events() {
               <div className="font-semibold text-lg text-left">
                 {event.title}
               </div>
-              <div className="text-sm text-left">{event.description}</div>
+              <div className="text-sm text-left">{event.short_description}</div>
             </div>
             <div className="text-sm">
               <div>{new Date(event.date).toLocaleDateString()}</div>

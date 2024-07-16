@@ -1,6 +1,6 @@
 import '../styles/index.css'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useUser } from '../hooks/useUser'
 
 export default function Login() {
@@ -34,11 +34,15 @@ export default function Login() {
         return
       }
 
+      setEmail('')
+      setPassword('')
+
       const data = await response.json()
       localStorage.setItem('user', JSON.stringify(data.user))
       localStorage.setItem('token', data.token)
       setUser(data.user)
-      navigate('/userProfile', { state: { user: data.user } })
+
+      navigate('/dashboard')
     } catch (error) {
       console.error('Error:', error)
       setError('An error occurred')
@@ -46,7 +50,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-200 py-12">
+    <div className="flex flex-col items-center justify-center bg-gray-200 ">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
@@ -75,22 +79,11 @@ export default function Login() {
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <button
           type="submit"
-          className="w-full bg-slate-600 text-white py-2 px-6 rounded-lg hover:bg-slate-700 duration-300"
+          className="w-full hover:bg-[#009277] text-white py-2 px-6 rounded-lg bg-slate-600 duration-300"
         >
-          Sign in
+          Sign in and continue
         </button>
       </form>
-      <p className="mt-4">
-        Dont have an account?{' '}
-        <Link to="/signup" className="text-blue-500">
-          Sign up here
-        </Link>
-      </p>
-      <p className="mt-4">
-        <Link to="/dashboard" className="text-blue-500">
-          View Dashboard
-        </Link>
-      </p>
     </div>
   )
 }

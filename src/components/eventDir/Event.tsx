@@ -12,7 +12,6 @@ export default function Event(): JSX.Element {
       axios
         .get(`http://localhost:3000/v1/event/${id}`)
         .then((res) => {
-          console.log(res.data)
           setEvent(res.data.events[0])
         })
         .catch((error) => {

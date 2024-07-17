@@ -1,8 +1,8 @@
 import '../styles/index.css'
 
 import { useState } from 'react'
-import Signup from './Signup'
-import Login from './Login'
+import Signup from '../components/auth/Signup'
+import Login from '../components/auth/Login'
 import { Link } from 'react-router-dom'
 
 const steps = [

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { FetchSevenDayWeather } from '../../api/fetchWeather'
 import WeatherData from '../../interface/weatherTypes'
-import IconSwitcher from './weather-icons/IconSwitcher'
+import IconSwitcher from './IconSwitcher'
 
 export default function SevenDayWeather(): JSX.Element | null {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null)

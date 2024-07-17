@@ -1,21 +1,21 @@
-import '../styles/index.css'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import Nav from '../components/Nav'
-import { useEffect } from 'react'
+import '../../styles/index.css'
+import { Link, useLocation } from 'react-router-dom'
+import Nav from '../nav/Nav'
+// import { useEffect } from 'react'
 
 export default function UserProfile() {
   const location = useLocation()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
-  useEffect(() => {
-    if (!location.state || !location.state.user) {
-      navigate('/')
-    }
-  }, [location, navigate])
+  // useEffect(() => {
+  //   if (!location.state || !location.state.user) {
+  //     navigate('/')
+  //   }
+  // }, [location, navigate])
 
-  if (!location.state || !location.state.user) {
-    return null
-  }
+  // if (!location.state || !location.state.user) {
+  //   return null
+  // }
 
   const { user } = location.state
   const { name, email } = user

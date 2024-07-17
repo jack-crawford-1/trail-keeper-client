@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import '../styles/index.css'
+import '../../styles/index.css'
 
 export default function Signup() {
   const [name, setName] = useState('')

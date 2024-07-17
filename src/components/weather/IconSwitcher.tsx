@@ -1,12 +1,12 @@
-import ClearSvgIcon from './animated/Clear'
-import Cloudy from './animated/Cloudy'
-import RainHeavy from './animated/RainHeavy'
-import RainModerate from './animated/RainModerate'
-import RainSlight from './animated/DrizzleSlight'
-import Showers from './animated/Showers'
-import SnowySvgIcon from './animated/Snowy'
-import DrizzleSlight from './animated/DrizzleSlight'
-import DrizzleModerate from './animated/DrizzleModerate'
+import ClearSvgIcon from './weather-svg/animated/Clear'
+import Cloudy from './weather-svg/animated/Cloudy'
+import RainHeavy from './weather-svg/animated/RainHeavy'
+import RainModerate from './weather-svg/animated/RainModerate'
+import RainSlight from './weather-svg/animated/DrizzleSlight'
+import Showers from './weather-svg/animated/Showers'
+import SnowySvgIcon from './weather-svg/animated/Snowy'
+import DrizzleSlight from './weather-svg/animated/DrizzleSlight'
+import DrizzleModerate from './weather-svg/animated/DrizzleModerate'
 
 export default function IconSwitcher(props: { weatherCode: number }) {
   const { weatherCode } = props

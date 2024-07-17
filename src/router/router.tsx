@@ -3,15 +3,15 @@ import {
   createRoutesFromElements,
   Route,
 } from 'react-router-dom'
-import Signup from '../pages/Signup'
+import Signup from '../components/auth/Signup'
 import App from '../App'
 import Home from '../pages/Home'
-import UserProfile from '../pages/UserProfile'
-import Login from '../pages/Login'
-import Logout from '../pages/Logout'
+import UserProfile from '../components/auth/UserProfile'
+import Login from '../components/auth/Login'
+import Logout from '../components/auth/Logout'
 import Dashboard from '../pages/Dashboard'
-import Event from '../components/eventDir/Event'
-import Events from '../components/eventDir/Events'
+import Event from '../components/event-app/Event'
+import Events from '../components/event-app/Events'
 
 const router = createBrowserRouter(
   createRoutesFromElements(

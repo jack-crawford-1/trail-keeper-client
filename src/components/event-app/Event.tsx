@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import type { Event } from '../../interface/eventTypes'
-import Nav from '../Nav'
+import Nav from '../nav/Nav'
 import AddEventForm from './AddEventForm'
 
 export default function Event(): React.JSX.Element {

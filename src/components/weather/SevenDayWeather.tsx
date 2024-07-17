@@ -21,8 +21,8 @@ export default function SevenDayWeather(): JSX.Element | null {
   const { daily } = weatherData
 
   return (
-    <div className="bg-slate-700">
-      <div className="bg-gray-200 border-2 rounded-xl">
+    <div className="bg-[#F5F5F5]">
+      <div className="bg-[#FAFAFA] border-2 rounded-xl">
         <h2 className="font-bold m-3">7 day Forecast</h2>
         <div className="flex flex-col justify-center items-center">
           <ul>

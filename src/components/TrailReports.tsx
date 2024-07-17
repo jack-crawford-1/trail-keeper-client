@@ -5,8 +5,8 @@ export default function TrailReports() {
   const date2 = '02 Jan 2024'
 
   return (
-    <div className="bg-slate-700 h-full">
-      <div className="rounded-xl bg-gray-100 h-full">
+    <div className="bg-[#FAFAFA] h-full rounded-xl border-2">
+      <div className="rounded-xl bg-[#FAFAFA] h-full">
         <h2 className="font-bold pb-3 pt-3">Recent Trail reports</h2>
         <div className="text-sm">
           <p>Trail condition: {condition1}</p>

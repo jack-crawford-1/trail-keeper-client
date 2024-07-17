@@ -15,18 +15,18 @@ export default function Dashboard() {
         <div>
           <Nav />
         </div>
-        <div className=" flex-grow grid gap-2 bg-slate-700 grid-cols-6 grid-rows-6 p-5">
+        <div className=" flex-grow grid gap-4 bg-[#F5F5F5] grid-cols-6 grid-rows-6 p-5">
           <div className="bg-white text-center  text-2xl col-span-2 row-span-4 rounded-xl ">
             <Events />
           </div>
-          <div className="bg-slate-700 text-center  text-2xl  col-span-3 row-span-2">
+          <div className="bg-[#F5F5F5] text-center  text-2xl  col-span-3 row-span-2">
             <Map />
           </div>
 
-          <div className="bg-white text-center  text-2xl col-span-1 row-span-4 ">
+          <div className="bg-[#F5F5F5 text-center  text-2xl col-span-1 row-span-4 ">
             <SevenDayWeather />
           </div>
-          <div className="bg-white text-center  text-2xl col-span-1 row-span-2 ">
+          <div className=" text-center  text-2xl col-span-1 row-span-2 ">
             <Messages />
           </div>
           <div className="bg-white text-center  text-2xl col-span-2 row-span-2 ">

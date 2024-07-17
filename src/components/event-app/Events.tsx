@@ -20,7 +20,7 @@ export default function Events() {
   }, [])
 
   return (
-    <div className="bg-gray-100 h-full p-4 rounded-xl">
+    <div className="bg-[#FAFAFA] h-[780px] p-4 rounded-xl border-2 overflow-y-scroll">
       <h2 className="font-bold text-2xl pt-3 mb-4">Upcoming Events</h2>
       <div className="flex flex-col space-y-4">
         {events.map((event) => (

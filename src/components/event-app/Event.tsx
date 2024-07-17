@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import type { Event } from '../../interface/eventTypes'
 import Nav from '../nav/Nav'
-import AddEventForm from './AddEventForm'
+import Comments from './Comments'
 
 export default function Event(): React.JSX.Element {
   const [event, setEvent] = useState<Event | null>(null)
@@ -71,6 +71,7 @@ export default function Event(): React.JSX.Element {
               Join Waitlist
             </button>
           </div>
+          <Comments />
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ export default function Nav() {
       <div className="container mx-auto flex justify-between items-center">
         <ul className="flex space-x-4">
           <li>
-            <Link to="/" className="text-white hover:text-gray-200">
+            <Link to="/dashboard" className="text-white hover:text-gray-200">
               Trail Mate
             </Link>
           </li>
@@ -34,7 +34,7 @@ export default function Nav() {
             </>
           ) : (
             <li>
-              <Link to="/login" className="text-white hover:text-gray-200">
+              <Link to="/" className="text-white hover:text-gray-200">
                 Login
               </Link>
             </li>

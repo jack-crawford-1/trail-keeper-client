@@ -25,10 +25,24 @@ export default function Map() {
       .importLibrary('maps')
       .then(() => {
         if (mapRef.current && window.google && window.google.maps) {
-          new window.google.maps.Map(mapRef.current, {
+          const map = new window.google.maps.Map(mapRef.current, {
             center,
-            zoom: 10,
+            zoom: 14,
+            mapTypeControl: false,
           })
+
+          const tileLayer = new window.google.maps.ImageMapType({
+            getTileUrl: function (coord, zoom) {
+              const url = `https://tiles-cdn.koordinates.com/services;key=309f0bd07902459798c646caf1f95048/tiles/v4/layer=50767/EPSG:3857/${zoom}/${coord.x}/${coord.y}.png`
+              return url
+            },
+            tileSize: new window.google.maps.Size(256, 256),
+            name: 'NZ Topo50 Maps',
+            maxZoom: 15,
+            minZoom: 0,
+          })
+
+          map.overlayMapTypes.insertAt(0, tileLayer)
         } else {
           console.error('Google Maps API failed to load')
         }

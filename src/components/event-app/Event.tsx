@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import type { Event } from '../../interface/eventTypes'
+import type { Event as EventType } from '../../interface/eventTypes'
 import Nav from '../nav/Nav'
 import Comments from './Comments'
 
 export default function Event(): React.JSX.Element {
-  const [event, setEvent] = useState<Event | null>(null)
+  const [event, setEvent] = useState<EventType | null>(null)
   const { id } = useParams<{ id: string }>()
 
   useEffect(() => {
@@ -25,6 +25,7 @@ export default function Event(): React.JSX.Element {
   if (!event) {
     return <div>Loading...</div>
   }
+
   return (
     <div className="bg-gray-100 w-full">
       <Nav />
@@ -48,7 +49,7 @@ export default function Event(): React.JSX.Element {
             />
             <div>
               <h2 className="text-xl font-semibold">Hosted By</h2>
-              <p className="text-slate-600">User ID: {event.user_id}</p>{' '}
+              <p className="text-slate-600">User ID: {event.user_id}</p>
             </div>
           </div>
           <div className="mb-6">
@@ -71,7 +72,7 @@ export default function Event(): React.JSX.Element {
               Join Waitlist
             </button>
           </div>
-          <Comments />
+          {id && <Comments eventId={parseInt(id, 10)} />}
         </div>
       </div>
     </div>

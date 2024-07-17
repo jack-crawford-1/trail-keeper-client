@@ -27,7 +27,7 @@ export default function Events() {
           <Link
             key={event.id}
             to={`/event/${event.id}`}
-            className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md"
+            className="flex justify-between items-center bg-white hover:bg-blue-100 p-4 rounded-lg shadow-md"
           >
             <div>
               <div className="font-semibold text-lg text-left">

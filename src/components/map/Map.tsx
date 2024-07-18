@@ -9,14 +9,11 @@ const containerStyle = {
 }
 
 //TODO fix type errors
-
-// Tararua Forest Park
 const center = {
   lat: -40.867903,
   lng: 175.340083,
 }
 
-// using proj4 to swap the coords format to something google can use to show the markers
 const sourceProj = 'EPSG:2193'
 const destProj = 'EPSG:4326'
 
@@ -28,7 +25,7 @@ if (!proj4.defs[sourceProj]) {
 }
 
 export default function Map() {
-  const mapRef = useRef(null)
+  const mapRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const loader = new Loader({
@@ -41,11 +38,10 @@ export default function Map() {
         if (mapRef.current && window.google && window.google.maps) {
           const map = new window.google.maps.Map(mapRef.current, {
             center,
-            zoom: 12,
-            mapTypeControl: true,
+            zoom: 10,
+            mapTypeControl: false,
           })
 
-          // Adding the Topo50 overlay
           const tileLayer = new window.google.maps.ImageMapType({
             getTileUrl: function (coord, zoom) {
               const url = `https://tiles-cdn.koordinates.com/services;key=309f0bd07902459798c646caf1f95048/tiles/v4/layer=50767/EPSG:3857/${zoom}/${coord.x}/${coord.y}.png`
@@ -61,27 +57,34 @@ export default function Map() {
 
           fetch('http://localhost:3000/v1/geojson', {
             headers: {
-              'Cache-Control': 'no-cache',
+              'Cache-Control': 'max-age=3600',
             },
           })
             .then((response) => response.json())
             .then((data) => {
               data.features.forEach((feature) => {
                 if (feature.geometry.type === 'Point') {
-                  const [lat, lng] = feature.geometry.coordinates
+                  const [lng, lat] = feature.geometry.coordinates
                   const [longitude, latitude] = proj4(sourceProj, destProj, [
-                    lat,
                     lng,
+                    lat,
                   ])
 
                   const marker = new window.google.maps.Marker({
                     map,
-                    position: {
-                      lat: latitude,
-                      lng: longitude,
+                    position: { lat: latitude, lng: longitude },
+                    icon: {
+                      url:
+                        'data:image/svg+xml;charset=UTF-8,' +
+                        encodeURIComponent(
+                          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <circle cx="12" cy="12" r="10" fill="#009277" stroke="white" stroke-width="2"/>
+                            <rect x="11" y="7" width="2" height="2" fill="white"/>
+                            <rect x="11" y="11" width="2" height="7" fill="white"/>
+                          </svg>`
+                        ),
+                      scaledSize: new window.google.maps.Size(34, 34),
                     },
-                    title: feature.properties.name,
-                    zIndex: 1000,
                   })
 
                   marker.addListener('click', () => {
@@ -89,9 +92,8 @@ export default function Map() {
                   })
                 }
               })
-
-              map.data.addGeoJson(data)
             })
+
             .catch((error) => {
               console.error('Error loading GeoJSON data:', error)
             })

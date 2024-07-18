@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import type { Event as EventType } from '../../interface/eventTypes'
 import Nav from '../nav/Nav'
 import Comments from './Comments'
@@ -68,11 +68,16 @@ export default function Event(): React.JSX.Element {
             <p className="text-slate-700">{event.location}</p>
           </div>
           <div className="flex justify-between">
-            <button className="bg-slate-500 text-white px-4 py-2 rounded hover:bg-slate-700">
+            <button className="bg-slate-500 text-white px-4 py-2 rounded-lg hover:bg-slate-700">
               Join Waitlist
             </button>
           </div>
           {id && <Comments eventId={parseInt(id, 10)} />}
+          <Link to={'/addEvent'}>
+            <div className=" m-10 bg-[#009277] text-white px-4 py-4  w-fit rounded-xl hover:bg-slate-700">
+              Add New Event
+            </div>
+          </Link>
         </div>
       </div>
     </div>

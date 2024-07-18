@@ -55,14 +55,14 @@ export default function Comments({ eventId }: { eventId: number }) {
       </div>
       <div className="mt-6">
         <textarea
-          className="w-full p-3 border border-gray-300 rounded-lg mb-4 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 border border-gray-300 rounded-lg mb-4 resize-none "
           placeholder="Add a comment"
           rows={3}
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />
         <button
-          className="w-full bg-[#009277] text-white px-4 py-2 rounded-lg hover:bg-[#009229] focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-[#009277] text-white px-4 py-2 rounded-lg hover:bg-slate-700 "
           onClick={handleAddComment}
         >
           Add Comment

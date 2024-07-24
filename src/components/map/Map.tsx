@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
-import proj4 from 'proj4'
 import Feature from '../../interface/mapTypes'
+import { convertCoordinates } from './coordinateConverter'
 
 const containerStyle = {
   width: '100%',
@@ -12,16 +12,6 @@ const containerStyle = {
 const center = {
   lat: -40.867903,
   lng: 175.340083,
-}
-
-const sourceProj = 'EPSG:2193'
-const destProj = 'EPSG:4326'
-
-if (!proj4.defs(sourceProj)) {
-  proj4.defs(
-    sourceProj,
-    '+proj=tmerc +lat_0=0 +lon_0=173 +k=0.9996 +x_0=1600000 +y_0=10000000 +datum=WGS84 +units=m +no_defs'
-  )
 }
 
 export default function Map() {
@@ -65,11 +55,10 @@ export default function Map() {
             .then((data) => {
               data.features.forEach((feature: Feature) => {
                 if (feature.geometry.type === 'Point') {
-                  const [lng, lat] = feature.geometry.coordinates
-                  const [longitude, latitude] = proj4(sourceProj, destProj, [
-                    lng,
-                    lat,
+                  const coordinates = convertCoordinates([
+                    feature.geometry.coordinates,
                   ])
+                  const [longitude, latitude] = coordinates[0]
 
                   const marker = new window.google.maps.Marker({
                     map,

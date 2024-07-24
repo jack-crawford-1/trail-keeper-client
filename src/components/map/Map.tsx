@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import proj4 from 'proj4'
+import Feature from '../../interface/mapTypes'
 
 const containerStyle = {
   width: '100%',
@@ -8,7 +9,6 @@ const containerStyle = {
   borderRadius: '15px',
 }
 
-//TODO fix type errors
 const center = {
   lat: -40.867903,
   lng: 175.340083,
@@ -17,7 +17,7 @@ const center = {
 const sourceProj = 'EPSG:2193'
 const destProj = 'EPSG:4326'
 
-if (!proj4.defs[sourceProj]) {
+if (!proj4.defs(sourceProj)) {
   proj4.defs(
     sourceProj,
     '+proj=tmerc +lat_0=0 +lon_0=173 +k=0.9996 +x_0=1600000 +y_0=10000000 +datum=WGS84 +units=m +no_defs'
@@ -26,6 +26,7 @@ if (!proj4.defs[sourceProj]) {
 
 export default function Map() {
   const mapRef = useRef<HTMLDivElement | null>(null)
+  const linzApiKey = import.meta.env.VITE_LINZ_API_KEY
 
   useEffect(() => {
     const loader = new Loader({
@@ -44,7 +45,7 @@ export default function Map() {
 
           const tileLayer = new window.google.maps.ImageMapType({
             getTileUrl: function (coord, zoom) {
-              const url = `https://tiles-cdn.koordinates.com/services;key=309f0bd07902459798c646caf1f95048/tiles/v4/layer=50767/EPSG:3857/${zoom}/${coord.x}/${coord.y}.png`
+              const url = `https://data.linz.govt.nz/services;key=${linzApiKey}/tiles/v4/layer=50767/EPSG:3857/${zoom}/${coord.x}/${coord.y}.png`
               return url
             },
             tileSize: new window.google.maps.Size(256, 256),
@@ -62,7 +63,7 @@ export default function Map() {
           })
             .then((response) => response.json())
             .then((data) => {
-              data.features.forEach((feature) => {
+              data.features.forEach((feature: Feature) => {
                 if (feature.geometry.type === 'Point') {
                   const [lng, lat] = feature.geometry.coordinates
                   const [longitude, latitude] = proj4(sourceProj, destProj, [
@@ -104,7 +105,7 @@ export default function Map() {
       .catch((e) => {
         console.error('Error loading Google Maps API:', e)
       })
-  }, [])
+  }, [linzApiKey])
 
   return <div ref={mapRef} style={containerStyle}></div>
 }

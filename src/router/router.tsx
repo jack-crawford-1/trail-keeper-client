@@ -13,6 +13,7 @@ import Dashboard from '../pages/Dashboard'
 import Event from '../components/event-app/Event'
 import Events from '../components/event-app/Events'
 import AddEventForm from '../components/event-app/AddEventForm'
+import DocRoutes from '../components/map/DocRoutes'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
         <Route path="/events" element={<Events />} />
         <Route path="/event/:id" element={<Event />} />
         <Route path="/addEvent" element={<AddEventForm />} />
+        <Route path="doc" element={<DocRoutes />} />
       </Route>
     </>
   )

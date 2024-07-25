@@ -1,11 +1,11 @@
 import Nav from '../components/nav/Nav'
-import TrailReports from '../components/TrailReports'
+import TrailReports from '../components/dashboard/TrailReports'
 import Map from '../components/map/Map'
-import Messages from '../components/Messages'
+import Messages from '../components/dashboard/Messages'
 import Events from '../components/event-app/Events'
-import Forum from '../components/Forum'
-import Volunteer from '../components/Volunteer'
-import Trails from '../components/Trails'
+import Forum from '../components/dashboard/Forum'
+import Volunteer from '../components/dashboard/Volunteer'
+import Trails from '../components/dashboard/Trails'
 import SevenDayWeather from '../components/weather/SevenDayWeather'
 
 export default function Dashboard() {

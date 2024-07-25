@@ -1,10 +1,10 @@
-import axios from 'axios'
 import { useEffect, useState, useRef } from 'react'
 import DocRoutesTypes from '../../interface/docRouteTypes'
 import { convertCoordinates } from './coordinateConverter'
 import { Loader } from '@googlemaps/js-api-loader'
+import { fetchDocTrack } from '../../api/fetchDocTrack'
 
-export default function DocTrails(): JSX.Element {
+export default function DocTrack(): JSX.Element {
   const [data, setData] = useState<DocRoutesTypes | null>(null)
   const mapRef = useRef<HTMLDivElement | null>(null)
   const linzApiKey = import.meta.env.VITE_LINZ_API_KEY
@@ -15,17 +15,12 @@ export default function DocTrails(): JSX.Element {
   })
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3000/v1/docroutes', {
-        headers: {
-          'Cache-Control': 'max-age=3600',
-        },
-      })
+    fetchDocTrack()
       .then((response) => {
-        const convertedLineData = response.data.line.map(
+        const convertedLineData = response.line.map(
           (line: [number, number][]) => convertCoordinates(line)
         )
-        setData({ ...response.data, line: convertedLineData })
+        setData({ ...response, line: convertedLineData })
         if (convertedLineData.length > 0 && convertedLineData[0].length > 0) {
           const [lng, lat] = convertedLineData[0][0]
           setMapCenter({ lat, lng })
@@ -86,7 +81,7 @@ export default function DocTrails(): JSX.Element {
 
   return (
     <div className="p-20 bg-slate-800 text-white">
-      <h1 className="pb-5 text-3xl">DOC Routes</h1>
+      <h1 className="pb-5 text-3xl">DOC Track</h1>
       {data ? (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ flex: 1, paddingRight: '20px' }}>

@@ -1,6 +1,6 @@
 export default function Volunteer() {
   const Volunteer1 = ['First aiders']
-  const Volunteer2 = ['Trail guides']
+  const Volunteer2 = ['Track guides']
   const eventDate1 = '2021-07-01'
   const eventDate2 = '2021-08-04'
 

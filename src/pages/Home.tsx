@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 const steps = [
   {
     label: 'Welcome to Trail Mate',
-    description: `Trail Mate is a comprehensive web app designed to provide detailed information and resources about trails, events, and education resources for the New Zealand hiking community.`,
+    description: `Trail Mate is a comprehensive web app designed to provide detailed information and resources about tracks, events, and education resources for the New Zealand hiking community.`,
   },
   {
     label: 'Sign Up',

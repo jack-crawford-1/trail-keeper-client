@@ -7,11 +7,11 @@ export default function TrailReports() {
   return (
     <div className="bg-[#FAFAFA] h-full rounded-xl border-2">
       <div className="rounded-xl bg-[#FAFAFA] h-full">
-        <h2 className="font-bold pb-3 pt-3">Recent Trail reports</h2>
+        <h2 className="font-bold pb-3 pt-3">Recent Track reports</h2>
         <div className="text-sm">
-          <p>Trail condition: {condition1}</p>
+          <p>Track condition: {condition1}</p>
           <p>Reported on: {date1}</p>
-          <p>Trail condition: {condition2}</p>
+          <p>Track condition: {condition2}</p>
           <p>Reported on: {date2}</p>
         </div>
       </div>

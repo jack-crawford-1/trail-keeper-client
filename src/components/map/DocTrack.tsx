@@ -53,22 +53,30 @@ export default function DocTrack(): JSX.Element {
             {
               center: mapCenter,
               zoom: 13,
-              mapTypeControl: false,
+              minZoom: 8,
+              maxZoom: 20,
+              mapTypeControl: true,
+              mapTypeControlOptions: {
+                style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                position: window.google.maps.ControlPosition.TOP_LEFT,
+                mapTypeIds: ['roadmap', 'satellite', 'terrain', 'topo'],
+              },
             }
           )
+          map.setTilt(0)
 
-          const tileLayer = new window.google.maps.ImageMapType({
+          const topoMapType = new window.google.maps.ImageMapType({
             getTileUrl: function (coord, zoom) {
               const url = `https://data.linz.govt.nz/services;key=${linzApiKey}/tiles/v4/layer=50767/EPSG:3857/${zoom}/${coord.x}/${coord.y}.png`
               return url
             },
             tileSize: new window.google.maps.Size(256, 256),
-            name: 'NZ Topo50 Maps',
+            name: 'NZ Topo50',
             maxZoom: 20,
-            minZoom: 0,
+            minZoom: 8,
           })
-
-          map.overlayMapTypes.insertAt(0, tileLayer)
+          map.mapTypes.set('topo', topoMapType)
+          map.setMapTypeId('topo')
 
           data.line.forEach((line) => {
             if (Array.isArray(line)) {

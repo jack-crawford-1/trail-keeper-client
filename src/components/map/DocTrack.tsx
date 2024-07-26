@@ -8,27 +8,36 @@ export default function DocTrack(): JSX.Element {
   const [data, setData] = useState<DocRoutesTypes | null>(null)
   const mapRef = useRef<HTMLDivElement | null>(null)
   const linzApiKey = import.meta.env.VITE_LINZ_API_KEY
+  const [trackId, setTrackId] = useState('114ff80d-12f4-4f0b-8384-103f0c8e6efc')
 
   const [mapCenter, setMapCenter] = useState({
     lat: -40.867903,
     lng: 135.340083,
   })
 
+  const fetchTrackData = async (id: string) => {
+    try {
+      const response = await fetchDocTrack(id)
+      const convertedLineData = response.line.map((line: [number, number][]) =>
+        convertCoordinates(line)
+      )
+      setData({ ...response, line: convertedLineData })
+      if (convertedLineData.length > 0 && convertedLineData[0].length > 0) {
+        const [lng, lat] = convertedLineData[0][0]
+        setMapCenter({ lat, lng })
+      }
+    } catch (error) {
+      console.error('Error fetching DOC track:', error)
+    }
+  }
+
+  const handleSearch = (event: React.FormEvent) => {
+    event.preventDefault()
+    fetchTrackData(trackId)
+  }
+
   useEffect(() => {
-    fetchDocTrack()
-      .then((response) => {
-        const convertedLineData = response.line.map(
-          (line: [number, number][]) => convertCoordinates(line)
-        )
-        setData({ ...response, line: convertedLineData })
-        if (convertedLineData.length > 0 && convertedLineData[0].length > 0) {
-          const [lng, lat] = convertedLineData[0][0]
-          setMapCenter({ lat, lng })
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-      })
+    fetchTrackData(trackId)
   }, [])
 
   useEffect(() => {
@@ -82,6 +91,20 @@ export default function DocTrack(): JSX.Element {
   return (
     <div className="p-20 bg-slate-800 text-white">
       <h1 className="pb-5 text-3xl">DOC Track</h1>
+
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          value={trackId}
+          onChange={(e) => setTrackId(e.target.value)}
+          placeholder="Enter Track ID"
+          className="p-2 mb-4 text-red-500"
+        />
+        <button type="submit" className="p-2 bg-blue-500 text-white rounded">
+          Search
+        </button>
+      </form>
+
       {data ? (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ flex: 1, paddingRight: '20px' }}>

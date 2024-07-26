@@ -28,7 +28,7 @@ const router = createBrowserRouter(
         <Route path="/events" element={<Events />} />
         <Route path="/event/:id" element={<Event />} />
         <Route path="/addEvent" element={<AddEventForm />} />
-        <Route path="doc" element={<DocTrack />} />
+        <Route path="/doc" element={<DocTrack />} />
       </Route>
     </>
   )

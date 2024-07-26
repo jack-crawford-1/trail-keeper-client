@@ -38,7 +38,7 @@ export default function DocTrack(): JSX.Element {
 
   useEffect(() => {
     fetchTrackData(trackId)
-  }, [])
+  }, [trackId])
 
   useEffect(() => {
     if (data && mapRef.current) {
@@ -52,7 +52,7 @@ export default function DocTrack(): JSX.Element {
             mapRef.current as HTMLElement,
             {
               center: mapCenter,
-              zoom: 12,
+              zoom: 13,
               mapTypeControl: false,
             }
           )
@@ -64,7 +64,7 @@ export default function DocTrack(): JSX.Element {
             },
             tileSize: new window.google.maps.Size(256, 256),
             name: 'NZ Topo50 Maps',
-            maxZoom: 15,
+            maxZoom: 20,
             minZoom: 0,
           })
 
@@ -89,53 +89,57 @@ export default function DocTrack(): JSX.Element {
   }, [data, linzApiKey, mapCenter])
 
   return (
-    <div className="p-20 bg-slate-800 text-white">
-      <h1 className="pb-5 text-3xl">DOC Track</h1>
-
+    <div className="p-5 md:p-10 min-h-screen bg-slate-800 text-white">
       <form onSubmit={handleSearch}>
         <input
           type="text"
-          value={trackId}
           onChange={(e) => setTrackId(e.target.value)}
           placeholder="Enter Track ID"
-          className="p-2 mb-4 text-red-500"
+          className="p-2 px-8 mb-4 text-red-500 rounded"
         />
-        <button type="submit" className="p-2 bg-blue-500 text-white rounded">
+        <button
+          type="submit"
+          className="p-2 px-5 bg-[#009277] text-white rounded"
+        >
           Search
         </button>
       </form>
 
       {data ? (
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{ flex: 1, paddingRight: '20px' }}>
-            <h2 className="text-3xl font-bold pb-4">{data.name}</h2>
-            <p className="pb-3">{data.introduction}</p>
-            <img
-              src={data.introductionThumbnail}
-              alt={data.name}
-              style={{ maxWidth: '100%', borderRadius: '15px' }}
-            />
-            <ul className="pt-10">
-              {data.permittedActivities.map((activity, index) => (
-                <li key={index}>{activity}</li>
-              ))}
-            </ul>
-            <p>Distance: {data.distance}</p>
-            <p>Location: {data.locationString}</p>
-            <p>Walk Duration: {data.walkDuration}</p>
-            <p>Walk Category: {data.walkDurationCategory}</p>
-            <p>Category: {data.walkTrackCategory}</p>
+        <>
+          <div>
+            <h2 className="text-3xl font-bold pb-3">{data.name}</h2>
+          </div>
+          {/* <img
+            className="pb-3"
+            src={data?.introductionThumbnail}
+            alt={data?.name}
+            style={{ maxWidth: '100%', borderRadius: '15px' }}
+          /> */}
+          <div>
+            <p className="text-slate-200 pb-1">{data.locationString}</p>
+            <p className="flex flex-row">
+              <span className="pr-5 text-[#12a489]">{data.distance}</span>
+              <span className="pr-5 text-[#12a489]">{data.walkDuration}</span>
+              <span className="pr-5 text-[#12a489]">
+                {data.walkDurationCategory}
+              </span>
+              <span className="pr-5 text-[#12a489]">
+                {data.walkTrackCategory}
+              </span>
+            </p>
           </div>
           <div
             ref={mapRef}
             style={{
-              flex: 1,
-              width: '30%',
-              height: '500px',
+              width: '100%',
+              height: '550px',
               borderRadius: '15px',
+              marginTop: '20px',
+              border: '10px solid white',
             }}
           ></div>
-        </div>
+        </>
       ) : (
         <p>Loading...</p>
       )}

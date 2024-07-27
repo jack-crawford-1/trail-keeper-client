@@ -78,7 +78,7 @@ export default function Demo(): JSX.Element {
             mapRef.current as HTMLElement,
             {
               center: mapCenter,
-              zoom: 13,
+              zoom: 14,
               minZoom: 8,
               maxZoom: 20,
               mapTypeControl: true,
@@ -110,9 +110,9 @@ export default function Demo(): JSX.Element {
                 const linePath = new window.google.maps.Polyline({
                   path: line.map(([lng, lat]) => ({ lat, lng })),
                   geodesic: true,
-                  strokeColor: '#FF6600',
+                  strokeColor: '#cf2960',
                   strokeOpacity: 0.75,
-                  strokeWeight: 4,
+                  strokeWeight: 5,
                 })
 
                 linePath.setMap(map)
@@ -125,33 +125,10 @@ export default function Demo(): JSX.Element {
   }, [data, linzApiKey, mapCenter])
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-5 md:p-10 min-h-screen bg-slate-800 text-white">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-10  min-h-screen bg-slate-800 text-white">
       <div className="lg:col-span-1 space-y-4 md:pr-10">
-        <div className="relative">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            placeholder="Search by track name"
-            className="p-2 px-8 mb-4 text-slate-800 rounded w-full"
-          />
-          {filteredTracks.length > 0 && (
-            <ul className="absolute bg-white text-black rounded p-2 max-h-40 overflow-y-scroll z-10 w-fit">
-              {filteredTracks.map((track) => (
-                <li
-                  key={track.assetId}
-                  onClick={() => handleTrackSelect(track)}
-                  className="p-2 cursor-pointer hover:bg-gray-200"
-                >
-                  {track.name}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
         {selectedTrack ? (
-          <div className="pt-40 md:pl-10">
+          <div className="">
             <h2 className="text-3xl font-bold pb-3">{selectedTrack.name}</h2>
             <p className="text-slate-200 pb-1">
               {selectedTrack.region.join(', ')}
@@ -178,14 +155,36 @@ export default function Demo(): JSX.Element {
             </p>
           </div>
         )}
+        <div className="relative pt-10">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            placeholder="Search by track name"
+            className="p-2 px-8 mb-4 text-slate-800 rounded w-full"
+          />
+          {filteredTracks.length > 0 && (
+            <ul className="absolute bg-white text-black rounded p-2 max-h-40 overflow-y-scroll z-10 w-fit">
+              {filteredTracks.map((track) => (
+                <li
+                  key={track.assetId}
+                  onClick={() => handleTrackSelect(track)}
+                  className="p-2 cursor-pointer hover:bg-gray-200"
+                >
+                  {track.name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
-      <div className="lg:col-span-2 md:p-10">
+      <div className="lg:col-span-2">
         <div
           ref={mapRef}
           style={{
             width: '100%',
             height: '100%',
-            borderRadius: '40px',
+            borderRadius: '10px',
             border: '5px solid transparent',
           }}
         ></div>

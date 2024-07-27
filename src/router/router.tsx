@@ -14,7 +14,7 @@ import Event from '../components/event-app/Event'
 import Events from '../components/event-app/Events'
 import AddEventForm from '../components/event-app/AddEventForm'
 import DocTrack from '../components/map/DocTrack'
-import Demo from '../components/map/Demo'
+import Track from '../components/map/Track'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,7 +30,7 @@ const router = createBrowserRouter(
         <Route path="/event/:id" element={<Event />} />
         <Route path="/addEvent" element={<AddEventForm />} />
         <Route path="/doc" element={<DocTrack />} />
-        <Route path="/demo" element={<Demo />} />
+        <Route path="/track" element={<Track />} />
       </Route>
     </>
   )

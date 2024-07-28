@@ -1,4 +1,4 @@
-export default interface DocRoutesTypes {
+export interface DocTrackTypes {
   name: string
   introduction: string
   introductionThumbnail: string
@@ -7,6 +7,16 @@ export default interface DocRoutesTypes {
   locationString: string
   line: Array<string>
   walkDuration: number
+  walkDurationCategory: string
+  walkTrackCategory: string
+}
+
+export interface TrackTypes {
+  assetId: string
+  name: string
+  region: string[]
+  distance: string
+  walkDuration: string
   walkDurationCategory: string
   walkTrackCategory: string
 }

@@ -1,31 +1,21 @@
 import { useState, useEffect, useRef } from 'react'
 import { fetchAllDocTracks, fetchDocTrack } from '../../api/fetchDocTrack'
-import DocRoutesTypes from '../../interface/docRouteTypes'
+import { DocTrackTypes } from '../../interface/docTrackTypes'
+import { TrackTypes } from '../../interface/docTrackTypes'
 import { Loader } from '@googlemaps/js-api-loader'
 import { convertCoordinates } from './coordinateConverter'
 
-interface Track {
-  assetId: string
-  name: string
-  region: string[]
-  distance: string
-  walkDuration: string
-  walkDurationCategory: string
-  walkTrackCategory: string
-}
-
 export default function Track(): JSX.Element {
-  const [tracks, setTracks] = useState<Track[]>([])
+  const [tracks, setTracks] = useState<TrackTypes[] | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
-  const [filteredTracks, setFilteredTracks] = useState<Track[]>([])
-  const [selectedTrack, setSelectedTrack] = useState<Track | null>(null)
+  const [filteredTracks, setFilteredTracks] = useState<TrackTypes[]>([])
+  const [selectedTrack, setSelectedTrack] = useState<TrackTypes | null>(null)
   const mapRef = useRef<HTMLDivElement | null>(null)
-  const [data, setData] = useState<DocRoutesTypes | null>(null)
+  const [data, setData] = useState<DocTrackTypes | null>(null)
   const linzApiKey = import.meta.env.VITE_LINZ_API_KEY
-
   const defaultMapCenter = { lat: -40.867903, lng: 175.340083 }
-
   const [mapCenter, setMapCenter] = useState(defaultMapCenter)
+  const initialZoom = 2
 
   useEffect(() => {
     const fetchTracks = async () => {
@@ -46,13 +36,14 @@ export default function Track(): JSX.Element {
   }
 
   const filterTracks = (value: string) => {
-    const filtered = tracks.filter((track) =>
-      track.name.toLowerCase().includes(value.toLowerCase())
-    )
+    const filtered =
+      tracks?.filter((track) =>
+        track.name.toLowerCase().includes(value.toLowerCase())
+      ) || []
     setFilteredTracks(filtered)
   }
 
-  const handleTrackSelect = async (track: Track) => {
+  const handleTrackSelect = async (track: TrackTypes) => {
     const trackData = await fetchDocTrack(track.assetId)
     const convertedLineData = trackData.line.map((line: [number, number][]) =>
       convertCoordinates(line)
@@ -78,8 +69,8 @@ export default function Track(): JSX.Element {
             mapRef.current as HTMLElement,
             {
               center: mapCenter,
-              zoom: 14,
-              minZoom: 8,
+              zoom: initialZoom,
+              minZoom: 2,
               maxZoom: 20,
               mapTypeControl: true,
               mapTypeControlOptions: {
@@ -98,8 +89,8 @@ export default function Track(): JSX.Element {
             },
             tileSize: new window.google.maps.Size(256, 256),
             name: 'NZ Topo50',
-            maxZoom: 20,
-            minZoom: 8,
+            maxZoom: 16,
+            minZoom: 10,
           })
           map.mapTypes.set('topo', topoMapType)
           map.setMapTypeId('topo')
@@ -119,6 +110,24 @@ export default function Track(): JSX.Element {
               }
             })
           }
+          let currentZoom = initialZoom
+          const targetZoom = 13
+          const transitionTime = 2
+          const framesPerSecond = 120
+          const totalFrames = transitionTime * framesPerSecond
+          const zoomStep = (targetZoom - initialZoom) / totalFrames
+
+          const zoomIn = () => {
+            if (currentZoom < targetZoom) {
+              currentZoom += zoomStep
+              map.setZoom(currentZoom)
+              if (currentZoom < targetZoom) {
+                requestAnimationFrame(zoomIn)
+              }
+            }
+          }
+
+          zoomIn()
         }
       })
     }

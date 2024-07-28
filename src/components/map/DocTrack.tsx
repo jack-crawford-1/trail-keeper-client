@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from 'react'
-import DocRoutesTypes from '../../interface/docRouteTypes'
+import { DocTrackTypes } from '../../interface/docTrackTypes'
 import { convertCoordinates } from './coordinateConverter'
 import { Loader } from '@googlemaps/js-api-loader'
 import { fetchDocTrack } from '../../api/fetchDocTrack'
 
 export default function DocTrack(): JSX.Element {
-  const [data, setData] = useState<DocRoutesTypes | null>(null)
+  const [data, setData] = useState<DocTrackTypes | null>(null)
   const mapRef = useRef<HTMLDivElement | null>(null)
   const linzApiKey = import.meta.env.VITE_LINZ_API_KEY
   const [trackId, setTrackId] = useState('114ff80d-12f4-4f0b-8384-103f0c8e6efc')

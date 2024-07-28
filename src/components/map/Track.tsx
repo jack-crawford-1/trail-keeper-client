@@ -14,7 +14,7 @@ interface Track {
   walkTrackCategory: string
 }
 
-export default function Demo(): JSX.Element {
+export default function Track(): JSX.Element {
   const [tracks, setTracks] = useState<Track[]>([])
   const [searchTerm, setSearchTerm] = useState('')
   const [filteredTracks, setFilteredTracks] = useState<Track[]>([])

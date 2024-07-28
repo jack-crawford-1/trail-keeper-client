@@ -35,3 +35,22 @@ export async function fetchAllDocTracks() {
     throw error
   }
 }
+
+// Tracks by region
+
+export async function fetchTracksByRegion(regionId: string) {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/v1/tracks-by-region/${regionId}`,
+      {
+        headers: {
+          'Cache-Control': 'max-age=3600',
+        },
+      }
+    )
+    return response.data
+  } catch (error) {
+    console.error('Error fetching tracks by region:', error)
+    throw error
+  }
+}

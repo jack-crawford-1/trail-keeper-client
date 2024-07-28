@@ -15,6 +15,7 @@ import Events from '../components/event-app/Events'
 import AddEventForm from '../components/event-app/AddEventForm'
 import DocTrack from '../components/map/DocTrack'
 import Track from '../components/map/Track'
+import ShowTracksByRegion from '../components/map/ShowTracksByRegion'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +32,7 @@ const router = createBrowserRouter(
         <Route path="/addEvent" element={<AddEventForm />} />
         <Route path="/doc" element={<DocTrack />} />
         <Route path="/track" element={<Track />} />
+        <Route path="/demo" element={<ShowTracksByRegion />} />
       </Route>
     </>
   )

@@ -1,9 +1,11 @@
 export interface DocTrackTypes {
+  assetId: string
   name: string
+  region: string[]
   introduction: string
   introductionThumbnail: string
   permittedActivities: string[]
-  distance: number
+  distance: string
   locationString: string
   line: Array<string>
   walkDuration: number

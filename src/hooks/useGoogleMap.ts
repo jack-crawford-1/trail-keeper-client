@@ -1,3 +1,5 @@
+// not usung yet
+
 import { useEffect, useRef } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 
@@ -6,11 +8,12 @@ type Data = {
 }
 
 export const useGoogleMap = (
-  mapCenter: unknown,
-  linzApiKey: unknown,
+  mapCenter: { lat: number; lng: number },
+  linzApiKey: string,
   data: Data
 ) => {
   const mapRef = useRef<HTMLDivElement | null>(null)
+  const initialZoom = 2
 
   useEffect(() => {
     if (mapRef.current) {
@@ -24,7 +27,7 @@ export const useGoogleMap = (
             mapRef.current as HTMLElement,
             {
               center: mapCenter,
-              zoom: 2,
+              zoom: initialZoom,
               minZoom: 2,
               maxZoom: 20,
               mapTypeControl: true,
@@ -65,6 +68,24 @@ export const useGoogleMap = (
               }
             })
           }
+          let currentZoom = initialZoom
+          const targetZoom = 13
+          const transitionTime = 2
+          const framesPerSecond = 120
+          const totalFrames = transitionTime * framesPerSecond
+          const zoomStep = (targetZoom - initialZoom) / totalFrames
+
+          const zoomIn = () => {
+            if (currentZoom < targetZoom) {
+              currentZoom += zoomStep
+              map.setZoom(currentZoom)
+              if (currentZoom < targetZoom) {
+                requestAnimationFrame(zoomIn)
+              }
+            }
+          }
+
+          zoomIn()
         }
       })
     }

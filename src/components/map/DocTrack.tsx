@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { DocTrackTypes } from '../../interface/docTrackTypes'
-import { convertCoordinates } from './coordinateConverter'
+import { convertCoordinates } from './utils/coordinateConverter'
 import { Loader } from '@googlemaps/js-api-loader'
 import { fetchDocTrack } from '../../api/fetchDocTrack'
 
@@ -118,12 +118,12 @@ export default function DocTrack(): JSX.Element {
           <div>
             <h2 className="text-3xl font-bold pb-3">{data.name}</h2>
           </div>
-          {/* <img
+          <img
             className="pb-3"
             src={data?.introductionThumbnail}
             alt={data?.name}
             style={{ maxWidth: '100%', borderRadius: '15px' }}
-          /> */}
+          />
           <div>
             <p className="text-slate-200 pb-1">{data.locationString}</p>
             <p className="flex flex-row">

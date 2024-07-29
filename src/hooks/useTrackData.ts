@@ -1,7 +1,9 @@
+// not usung yet
+
 import { useState, useEffect } from 'react'
 import { fetchAllDocTracks, fetchDocTrack } from '../api/fetchDocTrack'
 import { DocTrackTypes, TrackTypes } from '../interface/docTrackTypes'
-import { convertCoordinates } from '../components/map/coordinateConverter'
+import { convertCoordinates } from '../components/map/utils/coordinateConverter'
 
 export const useTrackData = () => {
   const [tracks, setTracks] = useState<TrackTypes[] | null>(null)

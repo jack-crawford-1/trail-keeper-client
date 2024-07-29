@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import Feature from '../../interface/mapTypes'
-import { convertCoordinates } from './coordinateConverter'
+import { convertCoordinates } from './utils/coordinateConverter'
 
 const containerStyle = {
   width: '100%',

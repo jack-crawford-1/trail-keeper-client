@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { fetchTracksByRegion } from '../../api/fetchDocTrack'
-import { getRegionName } from './DocRegionValues'
+import { getRegionName } from './utils/DocRegionValues'
+import { TrackTypes } from '../../interface/docTrackTypes'
 
 export default function ShowTracksByRegion() {
-  const [data, setData] = useState<any[]>([])
+  const [data, setData] = useState<TrackTypes[]>([])
   const [error, setError] = useState<null | Error>(null)
   const [loading, setLoading] = useState(true)
   const regionId = 'DOC-COR'

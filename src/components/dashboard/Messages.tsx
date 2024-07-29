@@ -26,7 +26,7 @@ function Messages() {
 
   return (
     <div className="bg-[#FAFAFA] h-full rounded-xl border-2">
-      <div className="bg-[#F5F5F5] h-[380px] overflow-y-scroll rounded-xl p-4">
+      <div className="bg-[#F5F5F5] h-[400px] overflow-y-scroll rounded-xl p-4">
         <h2 className="font-bold text-slate-700 pb-2">Messages</h2>
         <ul className="space-y-4">
           {messages.map((message, index) => (

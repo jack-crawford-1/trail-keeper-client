@@ -4,6 +4,9 @@ import { DocTrackTypes } from '../../interface/docTrackTypes'
 import { TrackTypes } from '../../interface/docTrackTypes'
 import { Loader } from '@googlemaps/js-api-loader'
 import { convertCoordinates } from './utils/coordinateConverter'
+import Feature from '../../interface/mapTypes'
+import { TrackSvg } from '../map/utils/TrackSvg'
+import { HutSvg } from '../map/utils/HutSvg'
 
 export default function Track(): JSX.Element {
   const [tracks, setTracks] = useState<DocTrackTypes[] | null>(null)
@@ -83,7 +86,7 @@ export default function Track(): JSX.Element {
             mapRef.current as HTMLElement,
             {
               center: mapCenter,
-              zoom: 15,
+              zoom: 12,
               minZoom: 2,
               maxZoom: 20,
               mapTypeControl: true,
@@ -124,13 +127,44 @@ export default function Track(): JSX.Element {
               }
             })
           }
+          fetch('http://localhost:3000/v1/geojson', {
+            headers: {
+              'Cache-Control': 'max-age=3600',
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              data.features.forEach((feature: Feature) => {
+                if (feature.geometry.type === 'Point') {
+                  const coordinates = convertCoordinates([
+                    feature.geometry.coordinates,
+                  ])
+                  const [longitude, latitude] = coordinates[0]
+
+                  const marker = new window.google.maps.Marker({
+                    map,
+                    position: { lat: latitude, lng: longitude },
+                    icon: {
+                      url:
+                        'data:image/svg+xml;charset=UTF-8,' +
+                        encodeURIComponent(TrackSvg()),
+                      scaledSize: new window.google.maps.Size(44, 44),
+                    },
+                  })
+
+                  marker.addListener('click', () => {
+                    alert(feature.properties.name)
+                  })
+                }
+              })
+            })
         }
       })
     }
   }, [data, linzApiKey, mapCenter])
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-10 min-h-screen bg-slate-800 text-white">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-10 min-h-[600px] bg-slate-800 text-white">
       <div className="lg:col-span-1 space-y-4 md:pr-10 leading-5">
         {selectedTrack ? (
           <div className="">

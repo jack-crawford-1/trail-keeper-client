@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import Feature from '../../interface/mapTypes'
 import { convertCoordinates } from './utils/coordinateConverter'
+import { TrackSvg } from './utils/TrackSvg'
 
 const containerStyle = {
   width: '100%',
@@ -66,13 +67,7 @@ export default function Map() {
                     icon: {
                       url:
                         'data:image/svg+xml;charset=UTF-8,' +
-                        encodeURIComponent(
-                          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                            <circle cx="12" cy="12" r="10" fill="#009277" stroke="white" stroke-width="2"/>
-                            <rect x="11" y="7" width="2" height="2" fill="white"/>
-                            <rect x="11" y="11" width="2" height="7" fill="white"/>
-                          </svg>`
-                        ),
+                        encodeURIComponent(TrackSvg()),
                       scaledSize: new window.google.maps.Size(34, 34),
                     },
                   })

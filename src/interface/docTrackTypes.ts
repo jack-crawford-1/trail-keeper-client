@@ -8,7 +8,7 @@ export interface DocTrackTypes {
   distance: string
   locationString: string
   line: Array<string>
-  walkDuration: number
+  walkDuration: string
   walkDurationCategory: string
   walkTrackCategory: string
 }

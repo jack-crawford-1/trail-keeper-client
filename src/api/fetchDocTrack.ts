@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+// DOC track by ID
+
 export async function fetchDocTrack(trackId: string) {
   try {
     const response = await axios.get(
@@ -17,7 +19,7 @@ export async function fetchDocTrack(trackId: string) {
   }
 }
 
-// all doc tracks
+// all DOC tracks
 
 export async function fetchAllDocTracks() {
   try {
@@ -36,7 +38,7 @@ export async function fetchAllDocTracks() {
   }
 }
 
-// Tracks by region
+// DOC Tracks by region
 
 export async function fetchTracksByRegion(regionId: string) {
   try {

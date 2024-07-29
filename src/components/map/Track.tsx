@@ -33,7 +33,7 @@ export default function Track(): JSX.Element {
     const value = e.target.value
     setSearchTerm(value)
     filterTracks(value)
-    setFocusedIndex(-1) // Reset focused index when search term changes
+    setFocusedIndex(-1)
   }
 
   const filterTracks = (value: string) => {

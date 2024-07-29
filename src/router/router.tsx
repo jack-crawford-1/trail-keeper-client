@@ -13,9 +13,8 @@ import Dashboard from '../pages/Dashboard'
 import Event from '../components/event-app/Event'
 import Events from '../components/event-app/Events'
 import AddEventForm from '../components/event-app/AddEventForm'
-import DocTrack from '../components/map/DocTrack'
 import Track from '../components/map/Track'
-import ShowTracksByRegion from '../components/map/ShowTracksByRegion'
+import ShowTracksByRegion from '../components/map/TracksRegion'
 import Dashboard2 from '../pages/Dashboard2'
 
 const router = createBrowserRouter(
@@ -31,7 +30,6 @@ const router = createBrowserRouter(
         <Route path="/events" element={<Events />} />
         <Route path="/event/:id" element={<Event />} />
         <Route path="/addEvent" element={<AddEventForm />} />
-        <Route path="/doc" element={<DocTrack />} />
         <Route path="/track" element={<Track />} />
         <Route path="/demo" element={<ShowTracksByRegion />} />
         <Route path="/dashboard2" element={<Dashboard2 />} />

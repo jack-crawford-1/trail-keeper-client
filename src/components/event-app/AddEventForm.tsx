@@ -1,4 +1,4 @@
-import { addEventCall } from '../../api/events'
+import { addEventCall } from '../../api/fetchAddEvents'
 import Nav from '../nav/Nav'
 
 //TODO update user_id to be dynamic

@@ -86,8 +86,8 @@ export default function Track(): JSX.Element {
             mapRef.current as HTMLElement,
             {
               center: mapCenter,
-              zoom: 12,
-              minZoom: 2,
+              zoom: 0,
+              minZoom: 0,
               maxZoom: 20,
               mapTypeControl: true,
               mapTypeControlOptions: {
@@ -127,19 +127,21 @@ export default function Track(): JSX.Element {
               }
             })
           }
-          fetch('http://localhost:3000/v1/geojson', {
-            headers: {
-              'Cache-Control': 'max-age=3600',
-            },
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              data.features.forEach((feature: Feature) => {
-                if (feature.geometry.type === 'Point') {
-                  const coordinates = convertCoordinates([
-                    feature.geometry.coordinates,
-                  ])
-                  const [longitude, latitude] = coordinates[0]
+
+          const addMarkers = (url: string, iconSvg: string, type: string) => {
+            fetch(url, {
+              headers: {
+                'Cache-Control': 'max-age=3600',
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                data.features.forEach((feature: Feature) => {
+                  let coordinates = feature.geometry.coordinates
+                  if (type === 'track') {
+                    coordinates = convertCoordinates([coordinates])[0]
+                  }
+                  const [longitude, latitude] = coordinates
 
                   const marker = new window.google.maps.Marker({
                     map,
@@ -147,17 +149,31 @@ export default function Track(): JSX.Element {
                     icon: {
                       url:
                         'data:image/svg+xml;charset=UTF-8,' +
-                        encodeURIComponent(TrackSvg()),
-                      scaledSize: new window.google.maps.Size(44, 44),
+                        encodeURIComponent(iconSvg),
+                      scaledSize: new window.google.maps.Size(34, 34),
                     },
                   })
 
                   marker.addListener('click', () => {
                     alert(feature.properties.name)
                   })
-                }
+                })
               })
-            })
+              .catch((error) => {
+                console.error(`Error fetching data from ${url}:`, error)
+              })
+          }
+
+          addMarkers(
+            'http://localhost:3000/v1/geojson?type=tracks',
+            TrackSvg(),
+            'track'
+          )
+          addMarkers(
+            'http://localhost:3000/v1/geojson?type=huts',
+            HutSvg(),
+            'hut'
+          )
         }
       })
     }
@@ -217,6 +233,7 @@ export default function Track(): JSX.Element {
             <h2 className="text-5xl font-bold pb-5">Trail Mate</h2>
             <p className="text-slate-200 md:w-5/6 leading-6">
               Search for Department of Conservation (DOC) tracks by track name.
+              Or click blue hut markers and green track markers.
             </p>
           </div>
         )}

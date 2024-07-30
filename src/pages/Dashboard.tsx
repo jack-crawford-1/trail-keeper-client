@@ -34,7 +34,7 @@ export default function Dashboard() {
           <div className="bg-white text-center  text-2xl col-span-2 row-span-2 ">
             <TrailReports />
           </div>
-          <div className="bg-[#F5F5F5] text-center  text-2xl  col-span-3 row-span-2">
+          <div className="bg-[#F5F5F5] text-center  text-2xl  col-span-3 row-span-2 border-8 rounded-xl border-white">
             <Map />
           </div>
 

@@ -86,9 +86,10 @@ export default function Track(): JSX.Element {
             mapRef.current as HTMLElement,
             {
               center: mapCenter,
-              zoom: 0,
+              zoom: 12,
               minZoom: 0,
               maxZoom: 20,
+              disableDefaultUI: true,
               mapTypeControl: true,
               mapTypeControlOptions: {
                 style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
@@ -106,8 +107,8 @@ export default function Track(): JSX.Element {
             },
             tileSize: new window.google.maps.Size(256, 256),
             name: 'NZ Topo50',
-            maxZoom: 16,
-            minZoom: 10,
+            maxZoom: 20,
+            minZoom: 8,
           })
           map.mapTypes.set('topo', topoMapType)
           map.setMapTypeId('topo')

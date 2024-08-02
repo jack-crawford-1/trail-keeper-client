@@ -1,5 +1,3 @@
-// src/components/map/Track.tsx
-
 import { useState, useEffect, useRef } from 'react'
 import { fetchDocTrack } from '../../api/fetchDocTrack'
 import { DocTrackTypes, TrackTypes } from '../../interface/docTrackTypes'
@@ -11,7 +9,7 @@ import TrackSearch from '../map/utils/TrackSearch'
 import LinzTopo from './utils/svg/LinzTopo'
 import addMarkers from '../map/utils/MapMarker'
 
-export default function Track(): JSX.Element {
+export default function GoogleMap(): JSX.Element {
   const [selectedTrack, setSelectedTrack] = useState<TrackTypes | null>(null)
   const mapRef = useRef<HTMLDivElement | null>(null)
   const [data, setData] = useState<DocTrackTypes | null>(null)

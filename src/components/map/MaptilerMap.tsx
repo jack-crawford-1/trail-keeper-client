@@ -9,6 +9,7 @@ config.apiKey = apiKey
 
 const styles: { [key: string]: MapStyle } = {
   topo: MapStyle.TOPO,
+  tracks: MapStyle.OUTDOOR,
   satellite: MapStyle.SATELLITE,
   street: MapStyle.STREETS,
   dark: MapStyle.STREETS.DARK,
@@ -32,6 +33,7 @@ export function Map(): JSX.Element {
         maxZoom: 18,
         terrain: true,
         terrainControl: true,
+        fullscreenControl: true,
       })
 
       setMap(newMap)

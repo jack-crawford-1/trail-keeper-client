@@ -7,7 +7,8 @@ import Forum from '../components/dashboard/Forum'
 import Volunteer from '../components/dashboard/Volunteer'
 import Trails from '../components/dashboard/Trails'
 import SevenDayWeather from '../components/weather/SevenDayWeather'
-import Track from '../components/map/GoogleMap'
+import GoogleMap from '../components/map/GoogleMap'
+import MaptilerMap from '../components/map/MaptilerMap'
 
 export default function Dashboard() {
   return (
@@ -19,8 +20,9 @@ export default function Dashboard() {
 
         <div className=" flex-grow grid gap-5 bg-[#F5F5F5] grid-cols-6 grid-rows-6 p-5">
           <div className="bg-white col-span-6 row-span-6 rounded-xl ">
-            <Track />
+            <GoogleMap />
           </div>
+
           <div className="bg-white text-center  text-2xl col-span-2 row-span-4 rounded-xl ">
             <Events />
           </div>
@@ -28,17 +30,14 @@ export default function Dashboard() {
           <div className="bg-[#F5F5F5 text-center  text-2xl col-span-1 row-span-4 ">
             <SevenDayWeather />
           </div>
-          <div className=" text-center  text-2xl col-span-1 row-span-2 ">
-            <Messages />
-          </div>
-          <div className="bg-white text-center  text-2xl col-span-2 row-span-2 ">
+          <div className="bg-white text-center  text-2xl col-span-2 row-span-4 ">
             <TrailReports />
           </div>
-          <div className="bg-[#F5F5F5] text-center  text-2xl  col-span-3 row-span-2 border-8 rounded-xl border-white">
-            <Map />
+          <div className=" text-center  text-2xl col-span-1 row-span-4 ">
+            <Messages />
           </div>
 
-          <div className="bg-white text-center  text-2xl col-span-3 row-span-2 ">
+          {/* <div className="bg-white text-center  text-2xl col-span-3 row-span-2 ">
             <Forum />
           </div>
           <div className="bg-white text-center  text-2xl col-span-1 row-span-2 ">
@@ -46,7 +45,7 @@ export default function Dashboard() {
           </div>
           <div className="bg-white text-center  text-2xl col-span-2 row-span-2 ">
             <Volunteer />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

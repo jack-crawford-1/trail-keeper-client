@@ -117,7 +117,7 @@ export function Map(): JSX.Element {
 
   return (
     <>
-      <div ref={mapContainerRef} style={{ height: '70vh', width: '100%' }} />
+      <div ref={mapContainerRef} style={{ height: '100%', width: '100%' }} />
       <div ref={popupRef} className="popup"></div>
       <style>{`
         .popup {

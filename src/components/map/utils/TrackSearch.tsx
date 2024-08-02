@@ -50,8 +50,14 @@ export default function TrackSearch({
           (prevIndex - 1 + filteredTracks.length) % filteredTracks.length
       )
     } else if (e.key === 'Enter' && focusedIndex >= 0) {
-      onTrackSelect(filteredTracks[focusedIndex])
+      selectTrack(filteredTracks[focusedIndex])
     }
+  }
+
+  const selectTrack = (track: TrackTypes) => {
+    onTrackSelect(track)
+    setSearchTerm('')
+    setFilteredTracks([])
   }
 
   return (

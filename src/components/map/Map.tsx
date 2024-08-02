@@ -76,8 +76,7 @@ export function Map(): JSX.Element {
       addMarkers('http://localhost:3000/v1/geojson?type=huts', CircleSvg())
 
       const styleSwitcher = document.createElement('div')
-      styleSwitcher.className =
-        'maplibregl-ctrl maplibregl-ctrl-group style-switcher'
+      styleSwitcher.className = 'maplibregl-ctrl style-switcher'
 
       Object.keys(styles).forEach((styleKey) => {
         const button = document.createElement('button')
@@ -136,15 +135,11 @@ export function Map(): JSX.Element {
           display: block;
         }
         .style-switcher {
-          background: white;
+          background: none;
           border-radius: 4px;
-          padding-left: 15px;
-          padding-right: 30px;
-          margin: 10px;
           color: #009277;
           font-size: 14px;
           font-weight: bold;
-          width: fit-content;
         }
         .style-switcher-button {
           background: #fff;
@@ -154,14 +149,14 @@ export function Map(): JSX.Element {
           margin: 5px 0;
           padding: 5px 10px;
           text-align: center;
-          width: 100%;
+          width: fit-content;
+          min-width: 100px;
         }
-        .style-switcher-button:hover {
-          background: #f0f0f0;
-        }
+
         .style-switcher-button:focus {
           outline: none;
-          background: #e0e0e0;
+          background: #009277;
+          color: #fff;
         }
       `}</style>
     </>

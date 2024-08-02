@@ -1,51 +1,20 @@
 import { useState, useEffect, useRef } from 'react'
-import { fetchAllDocTracks, fetchDocTrack } from '../../api/fetchDocTrack'
-import { DocTrackTypes } from '../../interface/docTrackTypes'
-import { TrackTypes } from '../../interface/docTrackTypes'
+import { fetchDocTrack } from '../../api/fetchDocTrack'
+import { DocTrackTypes, TrackTypes } from '../../interface/docTrackTypes'
 import { Loader } from '@googlemaps/js-api-loader'
 import { convertCoordinates } from './utils/coordinateConverter'
 import Feature from '../../interface/mapTypes'
 import { TrackSvg } from '../map/utils/TrackSvg'
 import { HutSvg } from '../map/utils/HutSvg'
+import TrackSearch from '../map/utils/TrackSearch'
 
 export default function Track(): JSX.Element {
-  const [tracks, setTracks] = useState<DocTrackTypes[] | null>(null)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [filteredTracks, setFilteredTracks] = useState<TrackTypes[]>([])
   const [selectedTrack, setSelectedTrack] = useState<TrackTypes | null>(null)
-  const [focusedIndex, setFocusedIndex] = useState(-1)
   const mapRef = useRef<HTMLDivElement | null>(null)
   const [data, setData] = useState<DocTrackTypes | null>(null)
   const linzApiKey = import.meta.env.VITE_LINZ_API_KEY
   const defaultMapCenter = { lat: -40.867903, lng: 175.340083 }
   const [mapCenter, setMapCenter] = useState(defaultMapCenter)
-
-  useEffect(() => {
-    const fetchTracks = async () => {
-      try {
-        const response = await fetchAllDocTracks()
-        setTracks(response)
-      } catch (error) {
-        console.error('Error fetching all DOC tracks:', error)
-      }
-    }
-    fetchTracks()
-  }, [])
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setSearchTerm(value)
-    filterTracks(value)
-    setFocusedIndex(-1)
-  }
-
-  const filterTracks = (value: string) => {
-    const filtered =
-      tracks?.filter((track) =>
-        track.name.toLowerCase().includes(value.toLowerCase())
-      ) || []
-    setFilteredTracks(filtered)
-  }
 
   const handleTrackSelect = async (track: TrackTypes) => {
     const trackData = await fetchDocTrack(track.assetId)
@@ -54,23 +23,9 @@ export default function Track(): JSX.Element {
     )
     setData({ ...trackData, line: convertedLineData })
     setSelectedTrack({ ...track, ...trackData })
-    setFilteredTracks([])
     if (convertedLineData.length > 0 && convertedLineData[0].length > 0) {
       const [lng, lat] = convertedLineData[0][0]
       setMapCenter({ lat, lng })
-    }
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'ArrowDown') {
-      setFocusedIndex((prevIndex) => (prevIndex + 1) % filteredTracks.length)
-    } else if (e.key === 'ArrowUp') {
-      setFocusedIndex(
-        (prevIndex) =>
-          (prevIndex - 1 + filteredTracks.length) % filteredTracks.length
-      )
-    } else if (e.key === 'Enter' && focusedIndex >= 0) {
-      handleTrackSelect(filteredTracks[focusedIndex])
     }
   }
 
@@ -165,11 +120,11 @@ export default function Track(): JSX.Element {
               })
           }
 
-          addMarkers(
-            'http://localhost:3000/v1/geojson?type=tracks',
-            TrackSvg(),
-            'track'
-          )
+          // addMarkers(
+          //   'http://localhost:3000/v1/geojson?type=tracks',
+          //   TrackSvg(),
+          //   'track'
+          // )
           addMarkers(
             'http://localhost:3000/v1/geojson?type=huts',
             HutSvg(),
@@ -238,31 +193,7 @@ export default function Track(): JSX.Element {
             </p>
           </div>
         )}
-        <div className="relative pt-10">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onKeyDown={handleKeyDown}
-            placeholder="Search by track name"
-            className="p-2 px-8 mb-4 text-slate-800 rounded w-full"
-          />
-          {filteredTracks.length > 0 && (
-            <ul className="absolute bg-white text-black rounded p-2 max-h-40 overflow-y-scroll z-10 w-fit">
-              {filteredTracks.map((track, index) => (
-                <li
-                  key={track.assetId}
-                  onClick={() => handleTrackSelect(track)}
-                  className={`p-2 cursor-pointer hover:bg-gray-200 ${
-                    focusedIndex === index ? 'bg-gray-300' : ''
-                  }`}
-                >
-                  {track.name}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <TrackSearch onTrackSelect={handleTrackSelect} />
       </div>
       <div className="lg:col-span-2">
         <div

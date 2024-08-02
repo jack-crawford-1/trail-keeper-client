@@ -23,15 +23,11 @@ export default function Dashboard2() {
 
         <div className=" flex-grow grid gap-5 bg-[#F5F5F5] grid-cols-6 grid-rows-10 p-5">
           <div className="bg-white col-span-4 row-span-3 rounded-xl ">
-            <Track />
+            <Map />
           </div>
 
           <div className="bg-white text-center  text-2xl col-span-2 row-span-4 rounded-xl ">
             <Events />
-          </div>
-
-          <div className="bg-[#F5F5F5] text-center  text-2xl  col-span-4 row-span-3 border-8 rounded-xl border-white">
-            <Map />
           </div>
 
           <div className="bg-[#F5F5F5 text-center  text-2xl col-span-2 row-span-4 ">

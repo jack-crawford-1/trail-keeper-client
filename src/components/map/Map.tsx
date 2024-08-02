@@ -1,30 +1,37 @@
 import { useRef, useEffect, useState } from 'react'
 import '@maptiler/sdk/dist/maptiler-sdk.css'
 import { Map as TilerMap, MapStyle, config, Marker } from '@maptiler/sdk'
-import { SquareSvg } from '../map/utils/SquareSvg'
 import { CircleSvg } from '../map/utils/Circle'
-import { convertCoordinates } from './utils/coordinateConverter'
 import Feature from '../../interface/mapTypes'
 
 const apiKey = import.meta.env.VITE_MAPTILER_API_KEY
 config.apiKey = apiKey
 
+const styles: { [key: string]: MapStyle } = {
+  topo: MapStyle.TOPO,
+  satellite: MapStyle.SATELLITE,
+  street: MapStyle.STREETS,
+  dark: MapStyle.STREETS.DARK,
+  winter: MapStyle.WINTER,
+  ocean: MapStyle.OCEAN,
+}
+
 export function Map(): JSX.Element {
   const mapContainerRef = useRef<HTMLDivElement | null>(null)
+  const popupRef = useRef<HTMLDivElement | null>(null)
   const [map, setMap] = useState<TilerMap | null>(null)
 
   useEffect(() => {
     if (mapContainerRef.current) {
       const newMap = new TilerMap({
         container: mapContainerRef.current,
-        style: MapStyle.OUTDOOR,
+        style: styles.topo,
         center: [175.423748, -40.884276],
         zoom: 14,
-        pitch: 80,
+        pitch: 40,
         maxZoom: 18,
         terrain: true,
         terrainControl: true,
-        fadeDuration: 2000,
       })
 
       setMap(newMap)
@@ -33,7 +40,7 @@ export function Map(): JSX.Element {
 
   useEffect(() => {
     if (map) {
-      const addMarkers = async (url: string, iconSvg: string, type: string) => {
+      const addMarkers = async (url: string, iconSvg: string) => {
         try {
           const response = await fetch(url, {
             headers: {
@@ -43,10 +50,7 @@ export function Map(): JSX.Element {
           const data = await response.json()
 
           data.features.forEach((feature: Feature) => {
-            let coordinates = feature.geometry.coordinates
-            if (type === 'track') {
-              coordinates = convertCoordinates([coordinates])[0]
-            }
+            const coordinates = feature.geometry.coordinates
             const [longitude, latitude] = coordinates
 
             const markerElement = document.createElement('div')
@@ -60,8 +64,8 @@ export function Map(): JSX.Element {
             marker.setLngLat([longitude, latitude])
             marker.addTo(map)
 
-            marker.getElement().addEventListener('click', () => {
-              alert(feature.properties.name)
+            marker.getElement().addEventListener('click', (e) => {
+              showPopup(e, feature.properties.name)
             })
           })
         } catch (error) {
@@ -69,20 +73,99 @@ export function Map(): JSX.Element {
         }
       }
 
-      addMarkers(
-        'http://localhost:3000/v1/geojson?type=tracks',
-        SquareSvg(),
-        'track'
-      )
-      addMarkers(
-        'http://localhost:3000/v1/geojson?type=huts',
-        CircleSvg(),
-        'hut'
+      addMarkers('http://localhost:3000/v1/geojson?type=huts', CircleSvg())
+
+      const styleSwitcher = document.createElement('div')
+      styleSwitcher.className =
+        'maplibregl-ctrl maplibregl-ctrl-group style-switcher'
+
+      Object.keys(styles).forEach((styleKey) => {
+        const button = document.createElement('button')
+        button.innerText = styleKey.charAt(0).toUpperCase() + styleKey.slice(1)
+        button.onclick = () => map.setStyle(styles[styleKey])
+        button.className = 'style-switcher-button'
+        styleSwitcher.appendChild(button)
+      })
+
+      map.addControl(
+        {
+          onAdd: () => {
+            return styleSwitcher
+          },
+          onRemove: () => {
+            styleSwitcher.parentNode?.removeChild(styleSwitcher)
+          },
+        },
+        'top-left'
       )
     }
   }, [map])
 
-  return <div ref={mapContainerRef} style={{ height: '70vh', width: '100%' }} />
+  const showPopup = (e: MouseEvent, message: string) => {
+    const popup = popupRef.current
+    if (popup) {
+      popup.innerText = message
+      popup.style.left = `${e.clientX + 10}px`
+      popup.style.top = `${e.clientY + 10}px`
+      popup.classList.add('show')
+      setTimeout(() => {
+        popup.classList.remove('show')
+      }, 3000)
+    }
+  }
+
+  return (
+    <>
+      <div ref={mapContainerRef} style={{ height: '70vh', width: '100%' }} />
+      <div ref={popupRef} className="popup"></div>
+      <style>{`
+        .popup {
+          position: absolute;
+          display: none;
+          background-color: white;
+          border: 1px solid #ccc;
+          padding: 10px;
+          border-radius: 4px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+          z-index: 1000;
+          color: #009277;
+          font-weight: bold;
+          font-size: 16px;
+        }
+        .popup.show {
+          display: block;
+        }
+        .style-switcher {
+          background: white;
+          border-radius: 4px;
+          padding-left: 15px;
+          padding-right: 30px;
+          margin: 10px;
+          color: #009277;
+          font-size: 14px;
+          font-weight: bold;
+          width: fit-content;
+        }
+        .style-switcher-button {
+          background: #fff;
+          border: 1px solid #ccc;
+          border-radius: 3px;
+          cursor: pointer;
+          margin: 5px 0;
+          padding: 5px 10px;
+          text-align: center;
+          width: 100%;
+        }
+        .style-switcher-button:hover {
+          background: #f0f0f0;
+        }
+        .style-switcher-button:focus {
+          outline: none;
+          background: #e0e0e0;
+        }
+      `}</style>
+    </>
+  )
 }
 
 export default Map

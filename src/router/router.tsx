@@ -13,10 +13,10 @@ import Dashboard from '../pages/Dashboard'
 import Event from '../components/event-app/Event'
 import Events from '../components/event-app/Events'
 import AddEventForm from '../components/event-app/AddEventForm'
-import Track from '../components/map/Track'
+import Track from '../components/map/GoogleMap'
 import ShowTracksByRegion from '../components/map/TracksRegion'
 import Dashboard2 from '../pages/Dashboard2'
-import Map from '../components/map/Map'
+import Map from '../components/map/MaptilerMap'
 
 const router = createBrowserRouter(
   createRoutesFromElements(

@@ -1,12 +1,15 @@
+// src/components/map/Track.tsx
+
 import { useState, useEffect, useRef } from 'react'
 import { fetchDocTrack } from '../../api/fetchDocTrack'
 import { DocTrackTypes, TrackTypes } from '../../interface/docTrackTypes'
 import { Loader } from '@googlemaps/js-api-loader'
 import { convertCoordinates } from './utils/coordinateConverter'
-import Feature from '../../interface/mapTypes'
-import { TrackSvg } from '../map/utils/TrackSvg'
-import { HutSvg } from '../map/utils/HutSvg'
+import { TrackSvg } from '../map/utils/svg/TrackSvg'
+import { HutSvg } from '../map/utils/svg/HutSvg'
 import TrackSearch from '../map/utils/TrackSearch'
+import LinzTopo from './utils/svg/LinzTopo'
+import addMarkers from '../map/utils/MapMarker'
 
 export default function Track(): JSX.Element {
   const [selectedTrack, setSelectedTrack] = useState<TrackTypes | null>(null)
@@ -55,16 +58,7 @@ export default function Track(): JSX.Element {
           )
           map.setTilt(0)
 
-          const topoMapType = new window.google.maps.ImageMapType({
-            getTileUrl: function (coord, zoom) {
-              const url = `https://data.linz.govt.nz/services;key=${linzApiKey}/tiles/v4/layer=50767/EPSG:3857/${zoom}/${coord.x}/${coord.y}.png`
-              return url
-            },
-            tileSize: new window.google.maps.Size(256, 256),
-            name: 'NZ Topo50',
-            maxZoom: 20,
-            minZoom: 8,
-          })
+          const topoMapType = LinzTopo()
           map.mapTypes.set('topo', topoMapType)
           map.setMapTypeId('topo')
 
@@ -84,48 +78,14 @@ export default function Track(): JSX.Element {
             })
           }
 
-          const addMarkers = (url: string, iconSvg: string, type: string) => {
-            fetch(url, {
-              headers: {
-                'Cache-Control': 'max-age=3600',
-              },
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                data.features.forEach((feature: Feature) => {
-                  let coordinates = feature.geometry.coordinates
-                  if (type === 'track') {
-                    coordinates = convertCoordinates([coordinates])[0]
-                  }
-                  const [longitude, latitude] = coordinates
-
-                  const marker = new window.google.maps.Marker({
-                    map,
-                    position: { lat: latitude, lng: longitude },
-                    icon: {
-                      url:
-                        'data:image/svg+xml;charset=UTF-8,' +
-                        encodeURIComponent(iconSvg),
-                      scaledSize: new window.google.maps.Size(34, 34),
-                    },
-                  })
-
-                  marker.addListener('click', () => {
-                    alert(feature.properties.name)
-                  })
-                })
-              })
-              .catch((error) => {
-                console.error(`Error fetching data from ${url}:`, error)
-              })
-          }
-
-          // addMarkers(
-          //   'http://localhost:3000/v1/geojson?type=tracks',
-          //   TrackSvg(),
-          //   'track'
-          // )
           addMarkers(
+            map,
+            'http://localhost:3000/v1/geojson?type=tracks',
+            TrackSvg(),
+            'track'
+          )
+          addMarkers(
+            map,
             'http://localhost:3000/v1/geojson?type=huts',
             HutSvg(),
             'hut'

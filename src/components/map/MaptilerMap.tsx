@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import '@maptiler/sdk/dist/maptiler-sdk.css'
 import { Map as TilerMap, MapStyle, config, Marker } from '@maptiler/sdk'
-import { CircleSvg } from '../map/utils/Circle'
+import { CircleSvg } from './utils/svg/Circle'
 import Feature from '../../interface/mapTypes'
 
 const apiKey = import.meta.env.VITE_MAPTILER_API_KEY

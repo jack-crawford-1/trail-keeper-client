@@ -18,7 +18,7 @@ export default function Search() {
   }
 
   return (
-    <div className="text-left pl-10 p-10 leading-5 bg-[#12a489]">
+    <div className="text-left pl-10 p-10 leading-5 bg-[#12a489] rounded">
       {selectedTrack ? (
         <div className="text-lg text-white">
           <h2 className="text-3xl font-bold pb-3">{selectedTrack.name}</h2>
@@ -69,11 +69,9 @@ export default function Search() {
           </div>
         </div>
       ) : (
-        <div className="pt-40">
-          <h2 className="text-5xl font-bold pb-5">Trail Mate</h2>
-          <p className="text-slate-200 md:w-5/6 leading-6">
-            Search for Department of Conservation (DOC) tracks by track name. Or
-            click blue hut markers and green track markers.
+        <div className="pt-10 min-h-[20vh] text-slate-200">
+          <p className=" md:w-5/6 leading-6">
+            Search for Department of Conservation (DOC) tracks by track name.
           </p>
         </div>
       )}

@@ -1,40 +1,40 @@
-import { useEffect, useState } from 'react'
-import { fetchTracksByRegion } from '../../api/fetchDocTrack'
-import { getRegionName } from './utils/DocRegionValues'
-import { TrackTypes } from '../../interface/docTrackTypes'
+import { useEffect, useState } from 'react';
+import { fetchTracksByRegion } from '../../api/fetchDocTrack';
+import { getRegionName } from './utils/DocRegionValues';
+import { TrackTypes } from '../../interface/docTrackTypes';
 
 export default function ShowTracksByRegion() {
-  const [data, setData] = useState<TrackTypes[]>([])
-  const [error, setError] = useState<null | Error>(null)
-  const [loading, setLoading] = useState(true)
-  const regionId = 'DOC-COR'
-  const regionName = getRegionName(regionId)
+  const [data, setData] = useState<TrackTypes[]>([]);
+  const [error, setError] = useState<Error | undefined>();
+  const [loading, setLoading] = useState(true);
+  const regionId = 'NZ-WGN';
+  const regionName = getRegionName(regionId);
 
   useEffect(() => {
     const fetchRegionData = async () => {
       try {
-        const fetchedData = await fetchTracksByRegion(regionId)
-        setData(fetchedData)
-        setLoading(false)
+        const fetchedData = await fetchTracksByRegion(regionId);
+        setData(fetchedData);
+        setLoading(false);
       } catch (error) {
-        console.error('Error fetching data:', error)
-        setError(error)
-        setLoading(false)
+        console.error('Error fetching data:', error);
+        setError(error);
+        setLoading(false);
       }
-    }
-    fetchRegionData()
-  }, [regionId])
+    };
+    fetchRegionData();
+  }, [regionId]);
 
   if (error) {
     return (
       <div className="text-red-500 text-center mt-4">
         Error fetching data: {error.message}
       </div>
-    )
+    );
   }
 
   if (loading) {
-    return <div className="text-center mt-4">Loading...</div>
+    return <div className="text-center mt-4">Loading...</div>;
   }
 
   return (
@@ -61,13 +61,6 @@ export default function ShowTracksByRegion() {
               <h2 className="text-lg font-semibold pt-2">Coordinates</h2>
               <p className="font-semibold">X: {track.x}</p>
               <p className="font-semibold">Y: {track.y}</p>
-
-              {/* <ul className="overflow-x-scroll">
-                <p className="font-semibold pt-2">line:</p>
-                {track.line.map((linePath: string | number | boolean) => (
-                  <li key={track.linePath}>{linePath}</li>
-                ))}
-              </ul> */}
             </div>
           ))}
         </div>
@@ -77,5 +70,5 @@ export default function ShowTracksByRegion() {
         </p>
       )}
     </div>
-  )
+  );
 }

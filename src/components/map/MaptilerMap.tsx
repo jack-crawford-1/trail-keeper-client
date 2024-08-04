@@ -1,44 +1,75 @@
-import { useRef, useEffect, useState } from 'react'
-import '@maptiler/sdk/dist/maptiler-sdk.css'
-import { Map as TilerMap, MapStyle, config, Marker } from '@maptiler/sdk'
-import { CircleSvg } from './utils/svg/Circle'
-import Feature from '../../interface/mapTypes'
+import { useRef, useEffect, useState } from 'react';
+import '@maptiler/sdk/dist/maptiler-sdk.css';
+import { Map as TilerMap, MapStyle, config, Marker } from '@maptiler/sdk';
+import { CircleSvg } from './utils/svg/Circle';
+import { Polyline } from './utils/PolyLine';
 
-const apiKey = import.meta.env.VITE_MAPTILER_API_KEY
-config.apiKey = apiKey
+const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
+config.apiKey = apiKey;
 
 const styles: { [key: string]: MapStyle } = {
   topo: MapStyle.TOPO,
-  tracks: MapStyle.OUTDOOR,
   satellite: MapStyle.SATELLITE,
   street: MapStyle.STREETS,
   dark: MapStyle.STREETS.DARK,
   winter: MapStyle.WINTER,
   ocean: MapStyle.OCEAN,
-}
+};
 
 export function Map(): JSX.Element {
-  const mapContainerRef = useRef<HTMLDivElement | null>(null)
-  const popupRef = useRef<HTMLDivElement | null>(null)
-  const [map, setMap] = useState<TilerMap | null>(null)
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const popupRef = useRef<HTMLDivElement | null>(null);
+  const [map, setMap] = useState<TilerMap | null>(null);
 
   useEffect(() => {
     if (mapContainerRef.current) {
-      const newMap = new TilerMap({
-        container: mapContainerRef.current,
-        style: styles.topo,
-        center: [175.423748, -40.884276],
-        zoom: 14,
-        pitch: 40,
-        maxZoom: 18,
-        terrain: true,
-        terrainControl: true,
-        fullscreenControl: true,
-      })
+      try {
+        const newMap = new TilerMap({
+          container: mapContainerRef.current,
+          style: styles.topo,
+          center: [175.433748, -40.844276],
+          zoom: 13,
+          pitch: 80,
+          maxZoom: 18,
+          terrain: true,
+          terrainControl: true,
+          fullscreenControl: true,
+        });
 
-      setMap(newMap)
+        newMap.on('load', () => {
+          setMap(newMap);
+
+          const styleSwitcher = document.createElement('div');
+          styleSwitcher.className = 'maplibregl-ctrl style-switcher';
+
+          Object.keys(styles).forEach((styleKey) => {
+            const button = document.createElement('button');
+            button.innerText =
+              styleKey.charAt(0).toUpperCase() + styleKey.slice(1);
+            button.onclick = () => {
+              newMap.setStyle(styles[styleKey]);
+            };
+            button.className = 'style-switcher-button';
+            styleSwitcher.appendChild(button);
+          });
+
+          newMap.addControl(
+            {
+              onAdd: () => {
+                return styleSwitcher;
+              },
+              onRemove: () => {
+                styleSwitcher.parentNode?.removeChild(styleSwitcher);
+              },
+            },
+            'top-left'
+          );
+        });
+      } catch (error) {
+        console.error('Error initializing map:', error);
+      }
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (map) {
@@ -48,76 +79,57 @@ export function Map(): JSX.Element {
             headers: {
               'Cache-Control': 'max-age=3600',
             },
-          })
-          const data = await response.json()
+          });
+          const data = await response.json();
 
-          data.features.forEach((feature: Feature) => {
-            const coordinates = feature.geometry.coordinates
-            const [longitude, latitude] = coordinates
+          data.features.forEach((feature: any) => {
+            const coordinates = feature.geometry.coordinates;
+            const [longitude, latitude] = coordinates;
 
-            const markerElement = document.createElement('div')
-            markerElement.innerHTML = iconSvg
-            markerElement.style.width = '34px'
-            markerElement.style.height = '34px'
+            const markerElement = document.createElement('div');
+            markerElement.innerHTML = iconSvg;
+            markerElement.style.width = '24px';
+            markerElement.style.height = '24px';
 
             const marker = new Marker({
               element: markerElement,
-            })
-            marker.setLngLat([longitude, latitude])
-            marker.addTo(map)
+            });
+            marker.setLngLat([longitude, latitude]);
+            marker.addTo(map);
 
             marker.getElement().addEventListener('click', (e) => {
-              showPopup(e, feature.properties.name)
-            })
-          })
+              showPopup(e, feature.properties.name);
+            });
+          });
         } catch (error) {
-          console.error(`Error fetching data from ${url}:`, error)
+          console.error(`Error fetching data from ${url}:`, error);
         }
-      }
+      };
 
-      addMarkers('http://localhost:3000/v1/geojson?type=huts', CircleSvg())
-
-      const styleSwitcher = document.createElement('div')
-      styleSwitcher.className = 'maplibregl-ctrl style-switcher'
-
-      Object.keys(styles).forEach((styleKey) => {
-        const button = document.createElement('button')
-        button.innerText = styleKey.charAt(0).toUpperCase() + styleKey.slice(1)
-        button.onclick = () => map.setStyle(styles[styleKey])
-        button.className = 'style-switcher-button'
-        styleSwitcher.appendChild(button)
-      })
-
-      map.addControl(
-        {
-          onAdd: () => {
-            return styleSwitcher
-          },
-          onRemove: () => {
-            styleSwitcher.parentNode?.removeChild(styleSwitcher)
-          },
-        },
-        'top-left'
-      )
+      addMarkers('http://localhost:3000/v1/geojson?type=huts', CircleSvg());
     }
-  }, [map])
+  }, [map]);
 
   const showPopup = (e: MouseEvent, message: string) => {
-    const popup = popupRef.current
+    const popup = popupRef.current;
     if (popup) {
-      popup.innerText = message
-      popup.style.left = `${e.clientX + 10}px`
-      popup.style.top = `${e.clientY + 10}px`
-      popup.classList.add('show')
+      popup.innerText = message;
+      popup.style.left = `${e.clientX + 10}px`;
+      popup.style.top = `${e.clientY + 10}px`;
+      popup.classList.add('show');
       setTimeout(() => {
-        popup.classList.remove('show')
-      }, 3000)
+        popup.classList.remove('show');
+      }, 3000);
     }
-  }
+  };
 
   return (
     <>
-      <div ref={mapContainerRef} style={{ height: '100%', width: '100%' }} />
+      <div
+        ref={mapContainerRef}
+        style={{ height: '83vh', width: '100%', borderRadius: '5px' }}
+      />
+      <Polyline map={map} />
       <div ref={popupRef} className="popup"></div>
       <style>{`
         .popup {
@@ -162,7 +174,7 @@ export function Map(): JSX.Element {
         }
       `}</style>
     </>
-  )
+  );
 }
 
-export default Map
+export default Map;

@@ -2,21 +2,22 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-} from 'react-router-dom'
-import Signup from '../components/auth/Signup'
-import App from '../App'
-import Home from '../pages/Home'
-import UserProfile from '../components/auth/UserProfile'
-import Login from '../components/auth/Login'
-import Logout from '../components/auth/Logout'
-import Dashboard from '../pages/Dashboard'
-import Event from '../components/event-app/Event'
-import Events from '../components/event-app/Events'
-import AddEventForm from '../components/event-app/AddEventForm'
-import Track from '../components/map/GoogleMap'
-import ShowTracksByRegion from '../components/map/TracksRegion'
-import Dashboard2 from '../pages/Dashboard2'
-import Map from '../components/map/MaptilerMap'
+} from 'react-router-dom';
+import Signup from '../components/auth/Signup';
+import App from '../App';
+import Home from '../pages/Home';
+import UserProfile from '../components/auth/UserProfile';
+import Login from '../components/auth/Login';
+import Logout from '../components/auth/Logout';
+import Dashboard from '../pages/Dashboard';
+import Event from '../components/event-app/Event';
+import Events from '../components/event-app/Events';
+import AddEventForm from '../components/event-app/AddEventForm';
+import Track from '../components/map/GoogleMap';
+import ShowTracksByRegion from '../components/map/TracksRegion';
+import Dashboard2 from '../pages/Dashboard2';
+import Map from '../components/map/MaptilerMap';
+import TrackRegion from '../components/map/TracksRegion';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,9 +36,10 @@ const router = createBrowserRouter(
         <Route path="/map" element={<Map />} />
         <Route path="/demo" element={<ShowTracksByRegion />} />
         <Route path="/dashboard2" element={<Dashboard2 />} />
+        <Route path="/region" element={<TrackRegion />} />
       </Route>
     </>
   )
-)
+);
 
-export default router
+export default router;

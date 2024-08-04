@@ -1,10 +1,10 @@
 export default interface Feature {
-  type: 'Feature'
+  type: 'Feature';
   geometry: {
-    type: 'Point'
-    coordinates: [number, number]
-  }
+    type: 'Point';
+    coordinates: [number, number];
+  };
   properties: {
-    name: string
-  }
+    name: string;
+  };
 }

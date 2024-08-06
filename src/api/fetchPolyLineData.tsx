@@ -1,29 +1,22 @@
-import { convertCoordinates } from './coordinateConverter';
+import { convertCoordinates } from '../components/map/utils/coordinateConverter';
+import { PolyLineFeature, TrackData } from '../interface/mapTypes';
 
-interface Feature {
-  type: string;
-  properties: any;
-  geometry: {
-    type: string;
-    coordinates: number[][];
-  };
-}
-
-export const fetchPolylineData = async (): Promise<{
-  type: string;
-  features: Feature[];
-} | null> => {
+export async function fetchPolylineData(): Promise<{
+  type: 'FeatureCollection';
+  features: PolyLineFeature[];
+} | null> {
   try {
     const response = await fetch('http://localhost:3000/v1/all-doc-tracks', {
       headers: {
         'Cache-Control': 'max-age=3600',
       },
     });
-    const data = await response.json();
+    const tracks: TrackData[] = await response.json();
 
-    const features = data.map((track: any) => ({
+    const trackFeatures: PolyLineFeature[] = tracks.map((track) => ({
       type: 'Feature',
       properties: {
+        id: track.assetId,
         assetId: track.assetId,
       },
       geometry: {
@@ -32,13 +25,12 @@ export const fetchPolylineData = async (): Promise<{
       },
     }));
 
-    const geoJsonData = {
+    return {
       type: 'FeatureCollection',
-      features: features,
+      features: trackFeatures,
     };
-    return geoJsonData;
   } catch (error) {
     console.error('Error fetching polyline data:', error);
     return null;
   }
-};
+}

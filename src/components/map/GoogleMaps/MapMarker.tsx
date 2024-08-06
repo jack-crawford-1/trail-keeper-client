@@ -1,5 +1,5 @@
-import { convertCoordinates } from './coordinateConverter'
-import Feature from '../../../interface/mapTypes'
+import { convertCoordinates } from '../utils/coordinateConverter';
+import { MapFeature } from '../../../interface/mapTypes';
 
 export default function MapMarker(
   map: google.maps.Map,
@@ -14,12 +14,12 @@ export default function MapMarker(
   })
     .then((response) => response.json())
     .then((data) => {
-      data.features.forEach((feature: Feature) => {
-        let coordinates = feature.geometry.coordinates
+      data.features.forEach((feature: MapFeature) => {
+        let coordinates = feature.geometry.coordinates;
         if (type === 'track') {
-          coordinates = convertCoordinates([coordinates])[0]
+          coordinates = convertCoordinates([coordinates])[0];
         }
-        const [longitude, latitude] = coordinates
+        const [longitude, latitude] = coordinates;
 
         const marker = new window.google.maps.Marker({
           map,
@@ -29,14 +29,14 @@ export default function MapMarker(
               'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(iconSvg),
             scaledSize: new window.google.maps.Size(34, 34),
           },
-        })
+        });
 
         marker.addListener('click', () => {
-          alert(feature.properties.name)
-        })
-      })
+          alert(feature.properties.name);
+        });
+      });
     })
     .catch((error) => {
-      console.error(`Error fetching data from ${url}:`, error)
-    })
+      console.error(`Error fetching data from ${url}:`, error);
+    });
 }

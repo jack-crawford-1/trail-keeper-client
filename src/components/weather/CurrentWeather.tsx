@@ -1,23 +1,24 @@
-import { useEffect, useState } from 'react'
-import { FetchCurrentWeather } from '../../api/fetchWeather'
-import WeatherData from '../../interface/weatherTypes'
+import { useEffect, useState } from 'react';
+import { FetchCurrentWeather } from '../../api/fetchWeather';
+import WeatherData from '../../interface/weatherTypes';
 
 export default function CurrentWeather(): JSX.Element | null {
-  const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await FetchCurrentWeather()
-      setWeatherData(data)
-    }
-    fetchData()
-  }, [])
+      const data = await FetchCurrentWeather();
+      setWeatherData(data);
+    };
+    fetchData();
+  }, []);
 
   if (!weatherData) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
-  const { current } = weatherData
+  const { current } = weatherData;
+  console.log(current);
 
   return (
     <div>
@@ -45,5 +46,5 @@ export default function CurrentWeather(): JSX.Element | null {
         <p>Surface pressure: {current.surface_pressure} hPa</p>
       </div>
     </div>
-  )
+  );
 }

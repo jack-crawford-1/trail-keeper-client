@@ -13,11 +13,11 @@ import Dashboard from '../pages/Dashboard';
 import Event from '../components/event-app/Event';
 import Events from '../components/event-app/Events';
 import AddEventForm from '../components/event-app/AddEventForm';
-import Track from '../components/map/GoogleMap';
-import ShowTracksByRegion from '../components/map/TracksRegion';
+import Track from '../components/map/GoogleMaps/GoogleMap';
+import TrackRegion from '../components/map/DocTracks/TracksRegion';
 import Dashboard2 from '../pages/Dashboard2';
-import Map from '../components/map/MaptilerMap';
-import TrackRegion from '../components/map/TracksRegion';
+import Map from '../components/map/TilerMaps/MaptilerMap';
+// import ShowTracksByRegion from '../api/fetchDocTrack';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,7 +34,7 @@ const router = createBrowserRouter(
         <Route path="/addEvent" element={<AddEventForm />} />
         <Route path="/track" element={<Track />} />
         <Route path="/map" element={<Map />} />
-        <Route path="/demo" element={<ShowTracksByRegion />} />
+        {/* <Route path="/demo" element={<ShowTracksByRegion />} /> */}
         <Route path="/dashboard2" element={<Dashboard2 />} />
         <Route path="/region" element={<TrackRegion />} />
       </Route>

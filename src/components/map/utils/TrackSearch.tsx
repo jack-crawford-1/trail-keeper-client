@@ -1,64 +1,60 @@
-import { useEffect, useState } from 'react'
-import { fetchAllDocTracks } from '../../../api/fetchDocTrack'
-import { DocTrackTypes, TrackTypes } from '../../../interface/docTrackTypes'
-
-interface TrackSearchProps {
-  onTrackSelect: (track: TrackTypes) => void
-}
+import { useEffect, useState } from 'react';
+import { fetchAllDocTracks } from '../../../api/fetchDocTrack';
+import { TrackTypes, TrackSearchProps } from '../../../interface/mapTypes';
 
 export default function TrackSearch({
   onTrackSelect,
 }: TrackSearchProps): JSX.Element {
-  const [tracks, setTracks] = useState<DocTrackTypes[] | null>(null)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [filteredTracks, setFilteredTracks] = useState<TrackTypes[]>([])
-  const [focusedIndex, setFocusedIndex] = useState(-1)
+  const [tracks, setTracks] = useState<TrackTypes[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredTracks, setFilteredTracks] = useState<TrackTypes[]>([]);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
 
   useEffect(() => {
     const fetchTracks = async () => {
       try {
-        const response = await fetchAllDocTracks()
-        setTracks(response)
+        const response = await fetchAllDocTracks();
+        console.log(response);
+        setTracks(response);
       } catch (error) {
-        console.error('Error fetching all DOC tracks:', error)
+        console.error('Error fetching all DOC tracks:', error);
       }
-    }
-    fetchTracks()
-  }, [])
+    };
+    fetchTracks();
+  }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setSearchTerm(value)
-    filterTracks(value)
-    setFocusedIndex(-1)
-  }
+    const value = e.target.value;
+    setSearchTerm(value);
+    filterTracks(value);
+    setFocusedIndex(-1);
+  };
 
   const filterTracks = (value: string) => {
-    const filtered =
-      tracks?.filter((track) =>
-        track.name.toLowerCase().includes(value.toLowerCase())
-      ) || []
-    setFilteredTracks(filtered)
-  }
+    const filtered = tracks.filter((track) =>
+      track.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredTracks(filtered);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowDown') {
-      setFocusedIndex((prevIndex) => (prevIndex + 1) % filteredTracks.length)
+      setFocusedIndex((prevIndex) => (prevIndex + 1) % filteredTracks.length);
     } else if (e.key === 'ArrowUp') {
       setFocusedIndex(
         (prevIndex) =>
           (prevIndex - 1 + filteredTracks.length) % filteredTracks.length
-      )
+      );
     } else if (e.key === 'Enter' && focusedIndex >= 0) {
-      selectTrack(filteredTracks[focusedIndex])
+      selectTrack(filteredTracks[focusedIndex]);
     }
-  }
+  };
 
   const selectTrack = (track: TrackTypes) => {
-    onTrackSelect(track)
-    setSearchTerm('')
-    setFilteredTracks([])
-  }
+    onTrackSelect(track);
+    setSearchTerm('');
+    setFilteredTracks([]);
+  };
 
   return (
     <div className="relative pt-10">
@@ -86,5 +82,5 @@ export default function TrackSearch({
         </ul>
       )}
     </div>
-  )
+  );
 }

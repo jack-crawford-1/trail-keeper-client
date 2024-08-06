@@ -1,46 +1,46 @@
-export function getRegionName(regionId: string): string {
+export function getRegionName(regionId: string) {
   switch (regionId) {
     case 'NZ-NTL':
-      return 'Northland'
+      return 'Northland';
     case 'NZ-AUK':
-      return 'Auckland'
+      return 'Auckland';
     case 'NZ-WKO':
-      return 'Waikato + Coromandel'
+      return 'Waikato + Coromandel';
     case 'DOC-COR':
-      return 'Coromandel'
+      return 'Coromandel';
     case 'NZ-BOP':
-      return 'Bay of Plenty'
+      return 'Bay of Plenty';
     case 'NZ-GIS':
-      return 'East Coast'
+      return 'East Coast';
     case 'NZ-TKI':
-      return 'Taranaki'
+      return 'Taranaki';
     case 'NZ-MWT':
-      return 'Manawatu/Whanganui + Central North Island'
+      return 'Manawatu/Whanganui + Central North Island';
     case 'DOC-CNI':
-      return 'Central North Island'
+      return 'Central North Island';
     case 'NZ-HKB':
-      return "Hawke's Bay"
+      return "Hawke's Bay";
     case 'NZ-WGN':
-      return 'Wellington/Kapiti'
+      return 'Wellington/Kapiti';
     case 'DOC-WPA':
-      return 'Wairarapa'
+      return 'Wairarapa';
     case 'NZ-CIT':
-      return 'Chatham Islands **'
+      return 'Chatham Islands **';
     case 'NZ-NSN':
-      return 'Nelson/Tasman'
+      return 'Nelson/Tasman';
     case 'NZ-MBH':
-      return 'Marlborough'
+      return 'Marlborough';
     case 'NZ-WTC':
-      return 'West Coast'
+      return 'West Coast';
     case 'NZ-CAN':
-      return 'Canterbury'
+      return 'Canterbury';
     case 'NZ-OTA':
-      return 'Otago'
+      return 'Otago';
     case 'NZ-STL':
-      return 'Southland + Fiordland'
+      return 'Southland + Fiordland';
     case 'DOC-FIL':
-      return 'Fiordland'
+      return 'Fiordland';
     default:
-      return ''
+      return '';
   }
 }

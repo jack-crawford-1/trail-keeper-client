@@ -2,17 +2,17 @@
   /* {<ShowTracksByRegion />} */
 }
 
-import TrailReports from '../components/dashboard/TrailReports'
+import TrailReports from '../components/dashboard/TrailReports';
 
-import Messages from '../components/dashboard/Messages'
+import Messages from '../components/dashboard/Messages';
 
-import Forum from '../components/dashboard/Forum'
-import Volunteer from '../components/dashboard/Volunteer'
-import Trails from '../components/dashboard/Trails'
-import SevenDayWeather from '../components/weather/SevenDayWeather'
-import MaptilerMap from '../components/map/MaptilerMap'
-import Search from '../components/dashboard/Search'
-import Nav from '../components/nav/Nav'
+import Forum from '../components/dashboard/Forum';
+import Volunteer from '../components/dashboard/Volunteer';
+import Trails from '../components/dashboard/Trails';
+import SevenDayWeather from '../components/weather/SevenDayWeather';
+import MaptilerMap from '../components/map/TilerMaps/MaptilerMap';
+import Search from '../components/dashboard/Search';
+import Nav from '../components/nav/Nav';
 
 export default function Dashboard2() {
   return (
@@ -56,5 +56,5 @@ export default function Dashboard2() {
         </div>
       </div>
     </>
-  )
+  );
 }

@@ -1,17 +1,15 @@
 import { useRef, useEffect, useState } from 'react';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
 import { Map as TilerMap, MapStyle, config, Marker } from '@maptiler/sdk';
-import { CircleSvg } from './utils/svg/Circle';
-import { Polyline } from './utils/PolyLine';
+import { CircleSvg } from './svg/Circle';
+import { MapFeature } from '../../../interface/mapTypes';
 
 const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
 config.apiKey = apiKey;
 
-const styles: { [key: string]: MapStyle } = {
+const styles = {
   topo: MapStyle.TOPO,
   satellite: MapStyle.SATELLITE,
-  street: MapStyle.STREETS,
-  dark: MapStyle.STREETS.DARK,
   winter: MapStyle.WINTER,
   ocean: MapStyle.OCEAN,
 };
@@ -47,7 +45,7 @@ export function Map(): JSX.Element {
             button.innerText =
               styleKey.charAt(0).toUpperCase() + styleKey.slice(1);
             button.onclick = () => {
-              newMap.setStyle(styles[styleKey]);
+              newMap.setStyle(styleKey);
             };
             button.className = 'style-switcher-button';
             styleSwitcher.appendChild(button);
@@ -55,18 +53,15 @@ export function Map(): JSX.Element {
 
           newMap.addControl(
             {
-              onAdd: () => {
-                return styleSwitcher;
-              },
-              onRemove: () => {
-                styleSwitcher.parentNode?.removeChild(styleSwitcher);
-              },
+              onAdd: () => styleSwitcher,
+              onRemove: () =>
+                styleSwitcher.parentNode?.removeChild(styleSwitcher),
             },
             'top-left'
           );
         });
       } catch (error) {
-        console.error('Error initializing map:', error);
+        console.error(error);
       }
     }
   }, []);
@@ -82,11 +77,10 @@ export function Map(): JSX.Element {
           });
           const data = await response.json();
 
-          data.features.forEach((feature: any) => {
-            const coordinates = feature.geometry.coordinates;
-            const [longitude, latitude] = coordinates;
-
+          data.features.forEach((feature: MapFeature) => {
+            const [longitude, latitude] = feature.geometry.coordinates;
             const markerElement = document.createElement('div');
+
             markerElement.innerHTML = iconSvg;
             markerElement.style.width = '24px';
             markerElement.style.height = '24px';
@@ -129,50 +123,9 @@ export function Map(): JSX.Element {
         ref={mapContainerRef}
         style={{ height: '83vh', width: '100%', borderRadius: '5px' }}
       />
-      <Polyline map={map} />
-      <div ref={popupRef} className="popup"></div>
-      <style>{`
-        .popup {
-          position: absolute;
-          display: none;
-          background-color: white;
-          border: 1px solid #ccc;
-          padding: 10px;
-          border-radius: 4px;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-          z-index: 1000;
-          color: #009277;
-          font-weight: bold;
-          font-size: 16px;
-        }
-        .popup.show {
-          display: block;
-        }
-        .style-switcher {
-          background: none;
-          border-radius: 4px;
-          color: #009277;
-          font-size: 14px;
-          font-weight: bold;
-        }
-        .style-switcher-button {
-          background: #fff;
-          border: 1px solid #ccc;
-          border-radius: 3px;
-          cursor: pointer;
-          margin: 5px 0;
-          padding: 5px 10px;
-          text-align: center;
-          width: fit-content;
-          min-width: 100px;
-        }
+      {/* <Polyline map={map} /> */}
 
-        .style-switcher-button:focus {
-          outline: none;
-          background: #009277;
-          color: #fff;
-        }
-      `}</style>
+      <div ref={popupRef} className="popup"></div>
     </>
   );
 }

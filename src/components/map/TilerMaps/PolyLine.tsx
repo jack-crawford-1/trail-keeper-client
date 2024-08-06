@@ -1,20 +1,9 @@
 import { useEffect } from 'react';
 import { Map, GeoJSONSource } from '@maptiler/sdk';
-import { fetchPolylineData } from './fetchPolyLineData';
+import { fetchPolylineData } from '../../../api/fetchPolyLineData';
+import { PolyLineFeature } from '../../../interface/mapTypes';
 
 type TilerMap = Map;
-
-interface Feature {
-  type: string;
-  properties: {
-    id: number;
-    [key: string]: any;
-  };
-  geometry: {
-    type: string;
-    coordinates: number[][];
-  };
-}
 
 export const Polyline = ({ map }: { map: TilerMap | null }) => {
   useEffect(() => {
@@ -23,7 +12,7 @@ export const Polyline = ({ map }: { map: TilerMap | null }) => {
         const data = await fetchPolylineData();
         if (data) {
           const features = data.features.map(
-            (feature: Feature, index: number) => ({
+            (feature: PolyLineFeature, index: number) => ({
               ...feature,
               properties: {
                 ...feature.properties,

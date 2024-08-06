@@ -1,40 +1,40 @@
-import { useState, useEffect, useRef } from 'react'
-import { fetchDocTrack } from '../../api/fetchDocTrack'
-import { DocTrackTypes, TrackTypes } from '../../interface/docTrackTypes'
-import { Loader } from '@googlemaps/js-api-loader'
-import { convertCoordinates } from './utils/coordinateConverter'
-import { TrackSvg } from '../map/utils/svg/TrackSvg'
-import { HutSvg } from '../map/utils/svg/HutSvg'
-import TrackSearch from '../map/utils/TrackSearch'
-import LinzTopo from './utils/svg/LinzTopo'
-import addMarkers from '../map/utils/MapMarker'
+import { useState, useEffect, useRef } from 'react';
+import { fetchDocTrack } from '../../../api/fetchDocTrack';
+import { TrackTypes } from '../../../interface/mapTypes';
+import { Loader } from '@googlemaps/js-api-loader';
+import { convertCoordinates } from '../utils/coordinateConverter';
+import { TrackSvg } from './svg/TrackSvg';
+import { HutSvg } from './svg/HutSvg';
+import TrackSearch from '../utils/TrackSearch';
+import LinzTopo from './LinzTopo';
+import addMarkers from './MapMarker';
 
 export default function GoogleMap(): JSX.Element {
-  const [selectedTrack, setSelectedTrack] = useState<TrackTypes | null>(null)
-  const mapRef = useRef<HTMLDivElement | null>(null)
-  const [data, setData] = useState<DocTrackTypes | null>(null)
-  const linzApiKey = import.meta.env.VITE_LINZ_API_KEY
-  const defaultMapCenter = { lat: -40.867903, lng: 175.340083 }
-  const [mapCenter, setMapCenter] = useState(defaultMapCenter)
+  const [selectedTrack, setSelectedTrack] = useState<TrackTypes | null>(null);
+  const mapRef = useRef<HTMLDivElement | null>(null);
+  const [data, setData] = useState<TrackTypes | null>(null);
+  const linzApiKey = import.meta.env.VITE_LINZ_API_KEY;
+  const defaultMapCenter = { lat: -40.867903, lng: 175.340083 };
+  const [mapCenter, setMapCenter] = useState(defaultMapCenter);
 
   const handleTrackSelect = async (track: TrackTypes) => {
-    const trackData = await fetchDocTrack(track.assetId)
+    const trackData = await fetchDocTrack(track.assetId);
     const convertedLineData = trackData.line.map((line: [number, number][]) =>
       convertCoordinates(line)
-    )
-    setData({ ...trackData, line: convertedLineData })
-    setSelectedTrack({ ...track, ...trackData })
+    );
+    setData({ ...trackData, line: convertedLineData });
+    setSelectedTrack({ ...track, ...trackData });
     if (convertedLineData.length > 0 && convertedLineData[0].length > 0) {
-      const [lng, lat] = convertedLineData[0][0]
-      setMapCenter({ lat, lng })
+      const [lng, lat] = convertedLineData[0][0];
+      setMapCenter({ lat, lng });
     }
-  }
+  };
 
   useEffect(() => {
     if (mapRef.current) {
       const loader = new Loader({
         apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-      })
+      });
 
       loader.load().then(() => {
         if (window.google && window.google.maps) {
@@ -53,12 +53,12 @@ export default function GoogleMap(): JSX.Element {
                 mapTypeIds: ['roadmap', 'satellite', 'terrain', 'topo'],
               },
             }
-          )
-          map.setTilt(0)
+          );
+          map.setTilt(0);
 
-          const topoMapType = LinzTopo()
-          map.mapTypes.set('topo', topoMapType)
-          map.setMapTypeId('topo')
+          const topoMapType = LinzTopo();
+          map.mapTypes.set('topo', topoMapType);
+          map.setMapTypeId('topo');
 
           if (data) {
             data.line.forEach((line) => {
@@ -69,11 +69,11 @@ export default function GoogleMap(): JSX.Element {
                   strokeColor: '#FF6600',
                   strokeOpacity: 0.75,
                   strokeWeight: 5,
-                })
+                });
 
-                linePath.setMap(map)
+                linePath.setMap(map);
               }
-            })
+            });
           }
 
           addMarkers(
@@ -81,17 +81,17 @@ export default function GoogleMap(): JSX.Element {
             'http://localhost:3000/v1/geojson?type=tracks',
             TrackSvg(),
             'track'
-          )
+          );
           addMarkers(
             map,
             'http://localhost:3000/v1/geojson?type=huts',
             HutSvg(),
             'hut'
-          )
+          );
         }
-      })
+      });
     }
-  }, [data, linzApiKey, mapCenter])
+  }, [data, linzApiKey, mapCenter]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-10 min-h-[600px] bg-slate-800 text-white">
@@ -165,5 +165,5 @@ export default function GoogleMap(): JSX.Element {
         ></div>
       </div>
     </div>
-  )
+  );
 }

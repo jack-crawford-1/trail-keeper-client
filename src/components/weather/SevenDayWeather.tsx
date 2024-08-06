@@ -1,24 +1,24 @@
-import { useState, useEffect } from 'react'
-import { FetchSevenDayWeather } from '../../api/fetchWeather'
-import WeatherData from '../../interface/weatherTypes'
-import IconSwitcher from './IconSwitcher'
+import { useState, useEffect } from 'react';
+import { FetchSevenDayWeather } from '../../api/fetchWeather';
+import WeatherData from '../../interface/weatherTypes';
+import IconSwitcher from './IconSwitcher';
 
 export default function SevenDayWeather(): JSX.Element | null {
-  const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await FetchSevenDayWeather()
-      setWeatherData(data)
-    }
-    fetchData()
-  }, [])
+      const data = await FetchSevenDayWeather();
+      setWeatherData(data);
+    };
+    fetchData();
+  }, []);
 
   if (!weatherData) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
-  const { daily } = weatherData
+  const { daily } = weatherData;
 
   return (
     <div className="bg-[#F5F5F5]">
@@ -30,7 +30,7 @@ export default function SevenDayWeather(): JSX.Element | null {
               const date = new Date(dateStr).toLocaleDateString('en-NZ', {
                 weekday: 'long',
                 day: 'numeric',
-              })
+              });
 
               return (
                 <li key={index}>
@@ -44,11 +44,11 @@ export default function SevenDayWeather(): JSX.Element | null {
                     </div>
                   </div>
                 </li>
-              )
+              );
             })}
           </ul>
         </div>
       </div>
     </div>
-  )
+  );
 }

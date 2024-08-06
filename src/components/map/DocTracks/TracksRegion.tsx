@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { fetchTracksByRegion } from '../../api/fetchDocTrack';
-import { getRegionName } from './utils/DocRegionValues';
-import { TrackTypes } from '../../interface/docTrackTypes';
+import { fetchTracksByRegion } from '../../../api/fetchDocTrack';
+import { getRegionName } from '../utils/DocRegionValues';
+import { TrackTypes } from '../../../interface/mapTypes';
 
 export default function ShowTracksByRegion() {
   const [data, setData] = useState<TrackTypes[]>([]);
-  const [error, setError] = useState<Error | undefined>();
+  const [error, setError] = useState<Error>();
   const [loading, setLoading] = useState(true);
   const regionId = 'NZ-WGN';
   const regionName = getRegionName(regionId);

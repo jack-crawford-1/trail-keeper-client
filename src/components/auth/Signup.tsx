@@ -1,35 +1,34 @@
-// import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import '../../styles/index.css'
+import { useState } from 'react';
+import '../../styles/index.css';
 
 export default function Signup() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
-  const [showPopup, setShowPopup] = useState(false)
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
 
   function validateEmail(email: string) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return re.test(String(email).toLowerCase())
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
   }
 
   async function handleSubmit(event: React.FormEvent) {
-    event.preventDefault()
+    event.preventDefault();
     if (!name || !email || !password || !confirmPassword) {
-      setError('All fields are required')
-      return
+      setError('All fields are required');
+      return;
     }
     if (!validateEmail(email)) {
-      setError('Invalid email format')
-      return
+      setError('Invalid email format');
+      return;
     }
     if (password !== confirmPassword) {
-      setError('Passwords do not match')
-      return
+      setError('Passwords do not match');
+      return;
     }
-    setError('')
+    setError('');
 
     try {
       const response = await fetch('http://localhost:3000/v1/signup', {
@@ -38,26 +37,26 @@ export default function Signup() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ name, email, password }),
-      })
+      });
 
       if (!response.ok) {
-        const errorData = await response.json()
-        console.error('Error:', errorData.error)
-        setError(errorData.error)
-        return
+        const errorData = await response.json();
+        console.error('Error:', errorData.error);
+        setError(errorData.error);
+        return;
       }
 
-      const data = await response.json()
-      localStorage.setItem('token', data.token)
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
 
-      setShowPopup(true)
-      setName('')
-      setEmail('')
-      setPassword('')
-      setConfirmPassword('')
+      setShowPopup(true);
+      setName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
     } catch (error) {
-      console.error('Error:', error)
-      setError('An error occurred')
+      console.error('Error:', error);
+      setError('An error occurred');
     }
   }
 
@@ -129,5 +128,5 @@ export default function Signup() {
         </div>
       )}
     </div>
-  )
+  );
 }

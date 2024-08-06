@@ -1,21 +1,21 @@
-import { useState } from 'react'
-import { fetchDocTrack } from '../../api/fetchDocTrack'
-import { DocTrackTypes, TrackTypes } from '../../interface/docTrackTypes'
-import { convertCoordinates } from '../map/utils/coordinateConverter'
-import TrackSearch from '../map/utils/TrackSearch'
+import { useState } from 'react';
+import { fetchDocTrack } from '../../api/fetchDocTrack';
+import { TrackTypes } from '../../interface/mapTypes';
+import { convertCoordinates } from '../map/utils/coordinateConverter';
+import TrackSearch from '../map/utils/TrackSearch';
 
 export default function Search() {
-  const [selectedTrack, setSelectedTrack] = useState<TrackTypes | null>(null)
-  const [data, setData] = useState<DocTrackTypes | null>(null)
+  const [selectedTrack, setSelectedTrack] = useState<TrackTypes | null>(null);
+  const [data, setData] = useState<TrackTypes | null>(null);
 
   const handleTrackSelect = async (track: TrackTypes) => {
-    const trackData = await fetchDocTrack(track.assetId)
+    const trackData = await fetchDocTrack(track.assetId);
     const convertedLineData = trackData.line.map((line: [number, number][]) =>
       convertCoordinates(line)
-    )
-    setData({ ...trackData, line: convertedLineData })
-    setSelectedTrack({ ...track, ...trackData })
-  }
+    );
+    setData({ ...trackData, line: convertedLineData });
+    setSelectedTrack({ ...track, ...trackData });
+  };
 
   return (
     <div className="text-left pl-10 p-10 leading-5 bg-[#12a489] rounded">
@@ -77,5 +77,5 @@ export default function Search() {
       )}
       <TrackSearch onTrackSelect={handleTrackSelect} />
     </div>
-  )
+  );
 }

@@ -1,6 +1,4 @@
-import axios from 'axios'
-
-// DOC track by ID
+import axios from 'axios';
 
 export async function fetchDocTrack(trackId: string) {
   try {
@@ -11,15 +9,13 @@ export async function fetchDocTrack(trackId: string) {
           'Cache-Control': 'max-age=3600',
         },
       }
-    )
-    return response.data
+    );
+    return response.data;
   } catch (error) {
-    console.error('Error fetching DOC track:', error)
-    throw error
+    console.error('Error fetching DOC track:', error);
+    throw error;
   }
 }
-
-// all DOC tracks
 
 export async function fetchAllDocTracks() {
   try {
@@ -30,16 +26,14 @@ export async function fetchAllDocTracks() {
           'Cache-Control': 'max-age=3600',
         },
       }
-    )
-    return response.data
+    );
+
+    return response.data;
   } catch (error) {
-    console.error('Error fetching all DOC tracks:', error)
-    throw error
+    console.error('Error fetching all DOC tracks:', error);
+    throw error;
   }
 }
-
-// DOC Tracks by region
-
 export async function fetchTracksByRegion(regionId: string) {
   try {
     const response = await axios.get(
@@ -49,10 +43,10 @@ export async function fetchTracksByRegion(regionId: string) {
           'Cache-Control': 'max-age=3600',
         },
       }
-    )
-    return response.data
+    );
+    return response.data;
   } catch (error) {
-    console.error('Error fetching tracks by region:', error)
-    throw error
+    console.error('Error fetching tracks by region:', error);
+    throw error;
   }
 }

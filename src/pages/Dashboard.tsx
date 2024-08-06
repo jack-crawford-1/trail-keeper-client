@@ -1,14 +1,14 @@
-import Nav from '../components/nav/Nav'
-import TrailReports from '../components/dashboard/TrailReports'
-import Map from '../components/map/MaptilerMap'
-import Messages from '../components/dashboard/Messages'
-import Events from '../components/event-app/Events'
-import Forum from '../components/dashboard/Forum'
-import Volunteer from '../components/dashboard/Volunteer'
-import Trails from '../components/dashboard/Trails'
-import SevenDayWeather from '../components/weather/SevenDayWeather'
-import GoogleMap from '../components/map/GoogleMap'
-import MaptilerMap from '../components/map/MaptilerMap'
+import Nav from '../components/nav/Nav';
+import TrailReports from '../components/dashboard/TrailReports';
+import Map from '../components/map/TilerMaps/MaptilerMap';
+import Messages from '../components/dashboard/Messages';
+import Events from '../components/event-app/Events';
+import Forum from '../components/dashboard/Forum';
+import Volunteer from '../components/dashboard/Volunteer';
+import Trails from '../components/dashboard/Trails';
+import SevenDayWeather from '../components/weather/SevenDayWeather';
+import GoogleMap from '../components/map/GoogleMaps/GoogleMap';
+import MaptilerMap from '../components/map/TilerMaps/MaptilerMap';
 
 export default function Dashboard() {
   return (
@@ -49,5 +49,5 @@ export default function Dashboard() {
         </div>
       </div>
     </>
-  )
+  );
 }

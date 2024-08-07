@@ -17,7 +17,7 @@ import Track from '../components/map/GoogleMaps/GoogleMap';
 import TrackRegion from '../components/map/DocTracks/TracksRegion';
 import Dashboard2 from '../pages/Dashboard2';
 import Map from '../components/map/TilerMaps/MaptilerMap';
-// import ShowTracksByRegion from '../api/fetchDocTrack';
+import ShowAllTracks from '../components/map/DocTracks/ShowAllTracks';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,9 +34,9 @@ const router = createBrowserRouter(
         <Route path="/addEvent" element={<AddEventForm />} />
         <Route path="/track" element={<Track />} />
         <Route path="/map" element={<Map />} />
-        {/* <Route path="/demo" element={<ShowTracksByRegion />} /> */}
         <Route path="/dashboard2" element={<Dashboard2 />} />
         <Route path="/region" element={<TrackRegion />} />
+        <Route path="/alltracks" element={<ShowAllTracks />} />
       </Route>
     </>
   )

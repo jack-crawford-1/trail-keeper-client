@@ -1,18 +1,16 @@
 {
   /* {<ShowTracksByRegion />} */
 }
+// import TrailReports from '../components/dashboard/TrailReports';
+// import Messages from '../components/dashboard/Messages';
+// import Forum from '../components/dashboard/Forum';
+// import Volunteer from '../components/dashboard/Volunteer';
+// import Trails from '../components/dashboard/Trails';
+// import SevenDayWeather from '../components/weather/SevenDayWeather';
+// import Search from '../components/dashboard/Search';
 
-import TrailReports from '../components/dashboard/TrailReports';
-
-import Messages from '../components/dashboard/Messages';
-
-import Forum from '../components/dashboard/Forum';
-import Volunteer from '../components/dashboard/Volunteer';
-import Trails from '../components/dashboard/Trails';
-import SevenDayWeather from '../components/weather/SevenDayWeather';
-import MaptilerMap from '../components/map/TilerMaps/MaptilerMap';
-import Search from '../components/dashboard/Search';
 import Nav from '../components/nav/Nav';
+import MaptilerMap from '../components/map/TilerMaps/MaptilerMap';
 
 export default function Dashboard2() {
   return (
@@ -23,13 +21,13 @@ export default function Dashboard2() {
         </div>
 
         <div className=" flex-grow grid gap-5 bg-[#F5F5F5] grid-cols-6 grid-rows-1 p-5">
-          <div className="bg-white col-span-4 row-span-4 rounded-xl ">
+          <div className="bg-white col-span-6 row-span-4 rounded-xl ">
             <MaptilerMap />
           </div>
 
-          <div className="bg-white text-center  text-2xl col-span-2 row-span-4 rounded-xl ">
+          {/* <div className="bg-white text-center  text-2xl col-span-2 row-span-4 rounded-xl ">
             <Search />
-          </div>
+          </div> */}
 
           {/* <div className="bg-[#F5F5F5 text-center  text-2xl col-span-2 row-span-4 ">
             <SevenDayWeather />

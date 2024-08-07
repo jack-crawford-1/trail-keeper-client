@@ -1,14 +1,15 @@
+// import TrailReports from '../components/dashboard/TrailReports';
+// import Map from '../components/map/TilerMaps/MaptilerMap';
+// import Messages from '../components/dashboard/Messages';
+// import Events from '../components/event-app/Events';
+// import Forum from '../components/dashboard/Forum';
+// import Volunteer from '../components/dashboard/Volunteer';
+// import Trails from '../components/dashboard/Trails';
+// import SevenDayWeather from '../components/weather/SevenDayWeather';
+// import MaptilerMap from '../components/map/TilerMaps/MaptilerMap';
+
 import Nav from '../components/nav/Nav';
-import TrailReports from '../components/dashboard/TrailReports';
-import Map from '../components/map/TilerMaps/MaptilerMap';
-import Messages from '../components/dashboard/Messages';
-import Events from '../components/event-app/Events';
-import Forum from '../components/dashboard/Forum';
-import Volunteer from '../components/dashboard/Volunteer';
-import Trails from '../components/dashboard/Trails';
-import SevenDayWeather from '../components/weather/SevenDayWeather';
 import GoogleMap from '../components/map/GoogleMaps/GoogleMap';
-import MaptilerMap from '../components/map/TilerMaps/MaptilerMap';
 
 export default function Dashboard() {
   return (
@@ -23,19 +24,19 @@ export default function Dashboard() {
             <GoogleMap />
           </div>
 
-          <div className="bg-white text-center  text-2xl col-span-2 row-span-4 rounded-xl ">
+          {/* <div className="bg-white text-center  text-2xl col-span-2 row-span-4 rounded-xl ">
             <Events />
           </div>
 
           <div className="bg-[#F5F5F5 text-center  text-2xl col-span-1 row-span-4 ">
             <SevenDayWeather />
-          </div>
-          <div className="bg-white text-center  text-2xl col-span-2 row-span-4 ">
+          </div> */}
+          {/* <div className="bg-white text-center  text-2xl col-span-2 row-span-4 ">
             <TrailReports />
           </div>
           <div className=" text-center  text-2xl col-span-1 row-span-4 ">
             <Messages />
-          </div>
+          </div> */}
 
           {/* <div className="bg-white text-center  text-2xl col-span-3 row-span-2 ">
             <Forum />

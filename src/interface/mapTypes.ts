@@ -7,6 +7,7 @@ export interface TrackTypes {
   walkDurationCategory: string;
   walkTrackCategory: string;
   description: string;
+  introductionThumbnail: string;
   x: number;
   y: number;
   line: number[][][];

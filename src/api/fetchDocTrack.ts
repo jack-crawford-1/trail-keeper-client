@@ -4,9 +4,11 @@ export async function fetchDocTrack(trackId: string) {
   try {
     const response = await axios.get(
       `http://localhost:3000/v1/doc-track/${trackId}`,
+
       {
         headers: {
           'Cache-Control': 'max-age=3600',
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -24,6 +26,7 @@ export async function fetchAllDocTracks() {
       {
         headers: {
           'Cache-Control': 'max-age=3600',
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -38,12 +41,15 @@ export async function fetchTracksByRegion(regionId: string) {
   try {
     const response = await axios.get(
       `http://localhost:3000/v1/tracks-by-region/${regionId}`,
+
       {
         headers: {
           'Cache-Control': 'max-age=3600',
+          'Content-Type': 'application/json',
         },
       }
     );
+
     return response.data;
   } catch (error) {
     console.error('Error fetching tracks by region:', error);

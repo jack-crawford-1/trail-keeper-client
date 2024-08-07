@@ -14,7 +14,6 @@ export default function TrackSearch({
     const fetchTracks = async () => {
       try {
         const response = await fetchAllDocTracks();
-        console.log(response);
         setTracks(response);
       } catch (error) {
         console.error('Error fetching all DOC tracks:', error);

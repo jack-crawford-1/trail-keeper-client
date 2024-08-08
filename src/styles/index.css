@@ -42,3 +42,22 @@
   background: #009277;
   color: #fff;
 }
+
+.gm-style button {
+  width: 30px !important;
+  height: 40px !important;
+  background-color: rgb(248, 239, 239) !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  border: 2px solid #666;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.gm-style button img {
+  width: auto;
+  height: 70%;
+}

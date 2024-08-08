@@ -38,6 +38,7 @@ export default function GoogleMap(): JSX.Element {
     if (mapRef.current) {
       const loader = new Loader({
         apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+        libraries: ['drawing'],
       });
 
       loader.load().then(() => {
@@ -52,7 +53,8 @@ export default function GoogleMap(): JSX.Element {
               disableDefaultUI: true,
               mapTypeControl: false,
               fullscreenControl: true,
-              keyboardShortcuts: false,
+              keyboardShortcuts: true,
+              zoomControl: false,
             }
           );
 
@@ -70,6 +72,67 @@ export default function GoogleMap(): JSX.Element {
 
           satelliteMapTypeRef.current = satelliteLayer;
           mapInstance.overlayMapTypes.insertAt(0, satelliteLayer);
+
+          const drawingManager = new window.google.maps.drawing.DrawingManager({
+            drawingMode: window.google.maps.drawing.OverlayType.MARKER,
+            drawingControl: true,
+            drawingControlOptions: {
+              position: window.google.maps.ControlPosition.BOTTOM_LEFT,
+              drawingModes: [
+                window.google.maps.drawing.OverlayType.MARKER,
+                window.google.maps.drawing.OverlayType.CIRCLE,
+                window.google.maps.drawing.OverlayType.POLYGON,
+                window.google.maps.drawing.OverlayType.POLYLINE,
+                window.google.maps.drawing.OverlayType.RECTANGLE,
+              ],
+            },
+
+            polylineOptions: {
+              strokeColor: '#FF6600',
+              strokeOpacity: 0.75,
+              strokeWeight: 5,
+            },
+
+            circleOptions: {
+              fillColor: '#FF6600',
+              fillOpacity: 0.1,
+              strokeWeight: 2,
+              strokeColor: '#FF6600',
+              clickable: true,
+              editable: true,
+            },
+
+            polygonOptions: {
+              fillColor: '#FF6600',
+              fillOpacity: 0.1,
+              strokeWeight: 2,
+              strokeColor: '#FF6600',
+              clickable: true,
+              editable: true,
+            },
+
+            rectangleOptions: {
+              fillColor: '#FF6600',
+              fillOpacity: 0.1,
+              strokeWeight: 2,
+              strokeColor: '#FF6600',
+              clickable: true,
+              editable: true,
+            },
+          });
+          drawingManager.setMap(mapInstance);
+
+          window.google.maps.event.addListener(
+            drawingManager,
+            'overlaycomplete',
+            (event) => {
+              const overlay = event.overlay;
+
+              overlay.addListener('click', () => {
+                overlay.setMap(null);
+              });
+            }
+          );
 
           setMap(mapInstance);
 
@@ -166,7 +229,8 @@ export default function GoogleMap(): JSX.Element {
             <h2 className="text-5xl font-bold pb-5">Trail Mate</h2>
             <p className="text-slate-200 md:w-5/6 leading-6">
               Search for Department of Conservation (DOC) tracks by track name.
-              Or click hut and track markers.
+              --- Click hut and track markers. --- Add markers, draw shapes and
+              lines on the map.
             </p>
           </div>
         )}

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useUser } from '../../hooks/useUser';
 
 export default function Nav() {
@@ -6,18 +6,32 @@ export default function Nav() {
   const userName = user?.name || '';
 
   return (
-    <nav className="p-5 bg-slate-300">
+    <nav className="p-5 bg-slate-100">
       <div className="container mx-auto flex justify-between items-center">
         <ul className="flex space-x-4">
           <li>
-            <Link to="/dashboard" className="text-slate-800 hover:font-bold">
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-slate-800 font-bold'
+                  : 'text-slate-800 hover:font-bold'
+              }
+            >
               GoogleMaps
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/dashboard2" className="text-slate-800 hover:font-bold">
+            <NavLink
+              to="/dashboard2"
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-slate-800 font-bold'
+                  : 'text-slate-800 hover:font-bold'
+              }
+            >
               TilerMaps
-            </Link>
+            </NavLink>
           </li>
         </ul>
         <ul className="flex space-x-4">

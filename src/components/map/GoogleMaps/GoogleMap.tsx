@@ -14,11 +14,12 @@ export default function GoogleMap(): JSX.Element {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [data, setData] = useState<TrackTypes | null>(null);
   const linzApiKey = import.meta.env.VITE_LINZ_API_KEY;
-  // const defaultMapCenter = { lat: -40.867903, lng: 175.340083 };
-
   const altMapCenter = { lat: -41.10297521883507, lng: 175.2632801648312 };
-
   const [mapCenter, setMapCenter] = useState(altMapCenter);
+  const [sliderValue, setSliderValue] = useState(0.2);
+
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const satelliteMapTypeRef = useRef<google.maps.ImageMapType | null>(null);
 
   const handleTrackSelect = async (track: TrackTypes) => {
     const trackData = await fetchDocTrack(track.assetId);
@@ -41,36 +42,36 @@ export default function GoogleMap(): JSX.Element {
 
       loader.load().then(() => {
         if (window.google && window.google.maps) {
-          const map = new window.google.maps.Map(
+          const mapInstance = new window.google.maps.Map(
             mapRef.current as HTMLElement,
             {
               center: mapCenter,
-              zoom: 11,
+              zoom: 13,
               minZoom: 0,
               maxZoom: 20,
               disableDefaultUI: true,
               mapTypeControl: false,
-              mapTypeControlOptions: {
-                style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                position: window.google.maps.ControlPosition.TOP_LEFT,
-                mapTypeIds: ['satellite', 'topo'],
-              },
+              fullscreenControl: true,
+              keyboardShortcuts: false,
             }
           );
 
           const topoMapType = LinzTopo();
-          map.mapTypes.set('topo', topoMapType);
-          map.setMapTypeId('topo');
-          map.overlayMapTypes.insertAt(0, topoMapType);
+          mapInstance.mapTypes.set('topo', topoMapType);
+          mapInstance.setMapTypeId('topo');
 
           const satelliteLayer = new window.google.maps.ImageMapType({
             getTileUrl: function (coord, zoom) {
               return `http://mt1.google.com/vt/lyrs=s&x=${coord.x}&y=${coord.y}&z=${zoom}`;
             },
             tileSize: new window.google.maps.Size(256, 256),
-            opacity: 0.5,
+            opacity: sliderValue,
           });
-          map.overlayMapTypes.insertAt(1, satelliteLayer);
+
+          satelliteMapTypeRef.current = satelliteLayer;
+          mapInstance.overlayMapTypes.insertAt(0, satelliteLayer);
+
+          setMap(mapInstance);
 
           if (data) {
             data.line.forEach((line) => {
@@ -83,19 +84,19 @@ export default function GoogleMap(): JSX.Element {
                   strokeWeight: 5,
                 });
 
-                linePath.setMap(map);
+                linePath.setMap(mapInstance);
               }
             });
           }
 
           addMarkers(
-            map,
+            mapInstance,
             'http://localhost:3000/v1/geojson?type=tracks',
             TrackSvg(),
             'track'
           );
           addMarkers(
-            map,
+            mapInstance,
             'http://localhost:3000/v1/geojson?type=huts',
             HutSvg(),
             'hut'
@@ -105,39 +106,45 @@ export default function GoogleMap(): JSX.Element {
     }
   }, [data, linzApiKey, mapCenter]);
 
+  useEffect(() => {
+    if (satelliteMapTypeRef.current) {
+      satelliteMapTypeRef.current.setOpacity(sliderValue);
+    }
+  }, [sliderValue]);
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-10 min-h-[600px] bg-slate-800 text-white">
+    <div className="grid grid-cols-3 gap-4 p-10 min-h-[735px] bg-slate-700 text-white">
       <div className="lg:col-span-1 space-y-4 md:pr-10 leading-5">
         {selectedTrack ? (
           <div className="">
             <h2 className="text-3xl font-bold pb-3">{selectedTrack.name}</h2>
             <p className="text-[slate-200] pb-1">
               Region:{' '}
-              <span className="text-[#12a489] font-bold pl-4">
+              <span className="text-white font-medium pl-4">
                 {selectedTrack.region.join(', ')}
               </span>
             </p>
             <p className="text-slate-200 pb-1">
               Distance:{' '}
-              <span className="text-[#12a489] font-bold pl-4">
+              <span className="text-white font-medium pl-4">
                 {selectedTrack.distance}
               </span>
             </p>
             <p className="text-slate-200 pb-1">
               Duration:{' '}
-              <span className="text-[#12a489] font-bold pl-4">
+              <span className="text-white font-medium pl-4">
                 {selectedTrack.walkDuration}
               </span>
             </p>
             <p className="text-slate-200 pb-1">
               Duration Category:{' '}
-              <span className="text-[#12a489] font-bold pl-4">
+              <span className="text-white font-medium pl-4">
                 {selectedTrack.walkDurationCategory}
               </span>
             </p>
             <p className="text-slate-200 pb-1">
               Track Category:{' '}
-              <span className="text-[#12a489] font-bold pl-4">
+              <span className="text-white font-medium pl-4">
                 {selectedTrack.walkTrackCategory}
               </span>
             </p>
@@ -155,22 +162,37 @@ export default function GoogleMap(): JSX.Element {
             </div>
           </div>
         ) : (
-          <div className="pt-40">
+          <div className="pt-10">
             <h2 className="text-5xl font-bold pb-5">Trail Mate</h2>
             <p className="text-slate-200 md:w-5/6 leading-6">
               Search for Department of Conservation (DOC) tracks by track name.
-              Or click blue hut markers and green track markers.
+              Or click hut and track markers.
             </p>
           </div>
         )}
         <TrackSearch onTrackSelect={handleTrackSelect} />
+        <div className="pt-5">
+          <label htmlFor="opacity-slider" className="block text-slate-200 pb-3">
+            Satellite / NZ Topo50 Overlay
+          </label>
+          <input
+            id="opacity-slider"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={sliderValue}
+            onChange={(e) => setSliderValue(parseFloat(e.target.value))}
+            className="w-1/2 appearance-none bg-white rounded-lg overflow-hidden"
+          />
+        </div>
       </div>
       <div className="lg:col-span-2">
         <div
           ref={mapRef}
           style={{
             width: '100%',
-            height: '100%',
+            height: '90%',
             borderRadius: '10px',
             border: '5px solid white',
           }}

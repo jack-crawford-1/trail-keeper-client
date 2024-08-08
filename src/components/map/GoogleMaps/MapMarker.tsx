@@ -31,8 +31,15 @@ export default function MapMarker(
           },
         });
 
+        const popup = new window.google.maps.InfoWindow({
+          content: `<div style="min-width: 150px; max-width: 150px; max-height: fit-content; margin: 0; border-radius: 8px; background-color: red;);">
+          <p style="margin: 0; padding: 10px 15px; color: white; font-size: 14px; background-color: #009277; font-weight: bold; border-radius: 8px;">${feature.properties.name}</p>
+          </div>`,
+        });
+
         marker.addListener('click', () => {
-          alert(feature.properties.name);
+          popup.open(map, marker);
+          popup.setPosition({ lat: latitude, lng: longitude });
         });
       });
     })

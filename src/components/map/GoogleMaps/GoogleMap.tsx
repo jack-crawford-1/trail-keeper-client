@@ -9,6 +9,9 @@ import TrackSearch from '../utils/TrackSearch';
 import LinzTopo from './LinzTopo';
 import addMarkers from './MapMarker';
 
+// TODO add ability to download gpx coordinates from the line drawn on the map
+// TODO add ability to save the line drawn on the map to a database and be viewed by other users / only the user who created the line
+
 export default function GoogleMap(): JSX.Element {
   const [selectedTrack, setSelectedTrack] = useState<TrackTypes | null>(null);
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -74,7 +77,7 @@ export default function GoogleMap(): JSX.Element {
           mapInstance.overlayMapTypes.insertAt(0, satelliteLayer);
 
           const drawingManager = new window.google.maps.drawing.DrawingManager({
-            drawingMode: window.google.maps.drawing.OverlayType.MARKER,
+            drawingMode: null,
             drawingControl: true,
             drawingControlOptions: {
               position: window.google.maps.ControlPosition.BOTTOM_LEFT,
@@ -176,8 +179,8 @@ export default function GoogleMap(): JSX.Element {
   }, [sliderValue]);
 
   return (
-    <div className="grid grid-cols-3 gap-4 p-10 min-h-[735px] bg-slate-700 text-white">
-      <div className="lg:col-span-1 space-y-4 md:pr-10 leading-5">
+    <div className="grid grid-cols-3 gap-4 pl-10  min-h-[735px] bg-slate-700 text-white">
+      <div className="lg:col-span-1 space-y-4 md:pr-10 leading-5 pt-10">
         {selectedTrack ? (
           <div className="">
             <h2 className="text-3xl font-bold pb-3">{selectedTrack.name}</h2>
@@ -225,7 +228,7 @@ export default function GoogleMap(): JSX.Element {
             </div>
           </div>
         ) : (
-          <div className="pt-10">
+          <div className="pt-40">
             <h2 className="text-5xl font-bold pb-5">Trail Mate</h2>
             <p className="text-slate-200 md:w-5/6 leading-6">
               Search for Department of Conservation (DOC) tracks by track name.
@@ -256,9 +259,12 @@ export default function GoogleMap(): JSX.Element {
           ref={mapRef}
           style={{
             width: '100%',
-            height: '90%',
-            borderRadius: '10px',
-            border: '5px solid white',
+            height: '100%',
+            border: '15px solid white',
+            borderTop: '0px',
+            borderBottom: '0px',
+            borderRight: '0px',
+            // border: '5px 5px 5px 5px solid white',
           }}
         ></div>
       </div>

@@ -8,7 +8,7 @@ export default function Dashboard() {
         <div>
           <Nav />
         </div>
-        <div className=" flex-grow grid gap-5 grid-cols-6 grid-rows-6 p-0">
+        <div className=" flex-grow grid gap-5 grid-cols-6 grid-rows-6">
           <div className="bg-white col-span-6 row-span-6 rounded-xl ">
             <GoogleMap />
           </div>

@@ -3,6 +3,7 @@ import '@maptiler/sdk/dist/maptiler-sdk.css';
 import { Map as TilerMap, MapStyle, config, Marker } from '@maptiler/sdk';
 import { CircleSvg } from './svg/Circle';
 import { MapFeature } from '../../../interface/mapTypes';
+import { Polyline } from '../TilerMaps/PolyLine';
 
 const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
 config.apiKey = apiKey;
@@ -123,7 +124,7 @@ export function Map(): JSX.Element {
         ref={mapContainerRef}
         style={{ height: '83vh', width: '100%', borderRadius: '5px' }}
       />
-      {/* <Polyline map={map} /> */}
+      <Polyline map={map} />
 
       <div ref={popupRef} className="popup"></div>
     </>

@@ -1,17 +1,22 @@
-import { Link } from 'react-router-dom'
-import { useUser } from '../../hooks/useUser'
+import { Link } from 'react-router-dom';
+import { useUser } from '../../hooks/useUser';
 
 export default function Nav() {
-  const { user } = useUser()
-  const userName = user?.name || ''
+  const { user } = useUser();
+  const userName = user?.name || '';
 
   return (
-    <nav className="p-5 bg-[#009277]">
+    <nav className="p-5 bg-slate-300">
       <div className="container mx-auto flex justify-between items-center">
         <ul className="flex space-x-4">
           <li>
-            <Link to="/dashboard" className="text-white hover:text-gray-200">
-              Trail Mate
+            <Link to="/dashboard" className="text-slate-800 hover:font-bold">
+              GoogleMaps
+            </Link>
+          </li>
+          <li>
+            <Link to="/dashboard2" className="text-slate-800 hover:font-bold">
+              TilerMaps
             </Link>
           </li>
         </ul>
@@ -21,13 +26,13 @@ export default function Nav() {
               <li>
                 <Link
                   to="/userProfile"
-                  className="text-white hover:text-gray-200"
+                  className="text-slate-800 hover:font-bold"
                 >
                   Logged in as: {userName}
                 </Link>
               </li>
               <li>
-                <Link to="/logout" className="text-white hover:text-gray-200">
+                <Link to="/logout" className="text-slate-800 hover:font-bold">
                   Logout
                 </Link>
               </li>
@@ -42,5 +47,5 @@ export default function Nav() {
         </ul>
       </div>
     </nav>
-  )
+  );
 }

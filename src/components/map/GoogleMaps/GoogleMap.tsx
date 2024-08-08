@@ -14,8 +14,11 @@ export default function GoogleMap(): JSX.Element {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [data, setData] = useState<TrackTypes | null>(null);
   const linzApiKey = import.meta.env.VITE_LINZ_API_KEY;
-  const defaultMapCenter = { lat: -40.867903, lng: 175.340083 };
-  const [mapCenter, setMapCenter] = useState(defaultMapCenter);
+  // const defaultMapCenter = { lat: -40.867903, lng: 175.340083 };
+
+  const altMapCenter = { lat: -41.10297521883507, lng: 175.2632801648312 };
+
+  const [mapCenter, setMapCenter] = useState(altMapCenter);
 
   const handleTrackSelect = async (track: TrackTypes) => {
     const trackData = await fetchDocTrack(track.assetId);
@@ -42,23 +45,32 @@ export default function GoogleMap(): JSX.Element {
             mapRef.current as HTMLElement,
             {
               center: mapCenter,
-              zoom: 12,
+              zoom: 11,
               minZoom: 0,
               maxZoom: 20,
               disableDefaultUI: true,
-              mapTypeControl: true,
+              mapTypeControl: false,
               mapTypeControlOptions: {
                 style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
                 position: window.google.maps.ControlPosition.TOP_LEFT,
-                mapTypeIds: ['roadmap', 'satellite', 'terrain', 'topo'],
+                mapTypeIds: ['satellite', 'topo'],
               },
             }
           );
-          map.setTilt(0);
 
           const topoMapType = LinzTopo();
           map.mapTypes.set('topo', topoMapType);
           map.setMapTypeId('topo');
+          map.overlayMapTypes.insertAt(0, topoMapType);
+
+          const satelliteLayer = new window.google.maps.ImageMapType({
+            getTileUrl: function (coord, zoom) {
+              return `http://mt1.google.com/vt/lyrs=s&x=${coord.x}&y=${coord.y}&z=${zoom}`;
+            },
+            tileSize: new window.google.maps.Size(256, 256),
+            opacity: 0.5,
+          });
+          map.overlayMapTypes.insertAt(1, satelliteLayer);
 
           if (data) {
             data.line.forEach((line) => {

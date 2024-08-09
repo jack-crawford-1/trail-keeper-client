@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
-import { fetchDocTrack } from '../../../api/fetchDocTrack';
 import { TrackTypes } from '../../../interface/mapTypes';
 import { Loader } from '@googlemaps/js-api-loader';
-import { convertCoordinates } from '../utils/coordinateConverter';
 import { TrackSvg } from './svg/TrackSvg';
 import { HutSvg } from './svg/HutSvg';
 import TrackSearch from '../utils/TrackSearch';
 import LinzTopo from './LinzTopo';
 import addMarkers from './MapMarker';
+import createDrawingManager from './DrawingManager';
+import { handleTrackSelect } from './TrackSelect';
 
 // TODO add ability to download gpx coordinates from the line drawn on the map
 // TODO add ability to save the line drawn on the map to a database and be viewed by other users / only the user who created the line
@@ -24,19 +24,6 @@ export default function GoogleMap(): JSX.Element {
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const satelliteMapTypeRef = useRef<google.maps.ImageMapType | null>(null);
-
-  const handleTrackSelect = async (track: TrackTypes) => {
-    const trackData = await fetchDocTrack(track.assetId);
-    const convertedLineData = trackData.line.map((line: [number, number][]) =>
-      convertCoordinates(line)
-    );
-    setData({ ...trackData, line: convertedLineData });
-    setSelectedTrack({ ...track, ...trackData });
-    if (convertedLineData.length > 0 && convertedLineData[0].length > 0) {
-      const [lng, lat] = convertedLineData[0][0];
-      setMapCenter({ lat, lng });
-    }
-  };
 
   useEffect(() => {
     if (mapRef.current) {
@@ -77,53 +64,8 @@ export default function GoogleMap(): JSX.Element {
           satelliteMapTypeRef.current = satelliteLayer;
           mapInstance.overlayMapTypes.insertAt(0, satelliteLayer);
 
-          const drawingManager = new window.google.maps.drawing.DrawingManager({
-            drawingMode: null,
-            drawingControl: true,
-            drawingControlOptions: {
-              position: window.google.maps.ControlPosition.BOTTOM_LEFT,
-              drawingModes: [
-                window.google.maps.drawing.OverlayType.MARKER,
-                window.google.maps.drawing.OverlayType.CIRCLE,
-                window.google.maps.drawing.OverlayType.POLYGON,
-                window.google.maps.drawing.OverlayType.POLYLINE,
-                window.google.maps.drawing.OverlayType.RECTANGLE,
-              ],
-            },
+          const drawingManager = createDrawingManager(mapInstance);
 
-            polylineOptions: {
-              strokeColor: '#FF6600',
-              strokeOpacity: 0.75,
-              strokeWeight: 5,
-            },
-
-            circleOptions: {
-              fillColor: '#FF6600',
-              fillOpacity: 0.1,
-              strokeWeight: 2,
-              strokeColor: '#FF6600',
-              clickable: true,
-              editable: true,
-            },
-
-            polygonOptions: {
-              fillColor: '#FF6600',
-              fillOpacity: 0.1,
-              strokeWeight: 2,
-              strokeColor: '#FF6600',
-              clickable: true,
-              editable: true,
-            },
-
-            rectangleOptions: {
-              fillColor: '#FF6600',
-              fillOpacity: 0.1,
-              strokeWeight: 2,
-              strokeColor: '#FF6600',
-              clickable: true,
-              editable: true,
-            },
-          });
           drawingManager.setMap(mapInstance);
 
           window.google.maps.event.addListener(
@@ -252,7 +194,11 @@ export default function GoogleMap(): JSX.Element {
             </p>
           </div>
         )}
-        <TrackSearch onTrackSelect={handleTrackSelect} />
+        <TrackSearch
+          onTrackSelect={(track: TrackTypes) =>
+            handleTrackSelect(track, setSelectedTrack, setData, setMapCenter)
+          }
+        />
         <div className="pt-5">
           <label htmlFor="opacity-slider" className="block text-slate-200 pb-3">
             Satellite / NZ Topo50 Overlay
@@ -279,7 +225,6 @@ export default function GoogleMap(): JSX.Element {
             borderTop: '0px',
             borderBottom: '0px',
             borderRight: '0px',
-            // border: '5px 5px 5px 5px solid white',
           }}
         ></div>
       </div>

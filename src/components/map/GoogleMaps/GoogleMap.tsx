@@ -11,6 +11,7 @@ import addMarkers from './MapMarker';
 
 // TODO add ability to download gpx coordinates from the line drawn on the map
 // TODO add ability to save the line drawn on the map to a database and be viewed by other users / only the user who created the line
+// TODO add abitility to save abd reload an instance of a map
 
 export default function GoogleMap(): JSX.Element {
   const [selectedTrack, setSelectedTrack] = useState<TrackTypes | null>(null);
@@ -128,11 +129,25 @@ export default function GoogleMap(): JSX.Element {
           window.google.maps.event.addListener(
             drawingManager,
             'overlaycomplete',
-            (event) => {
-              const overlay = event.overlay;
+            (event: {
+              type: google.maps.drawing.OverlayType;
+              overlay: google.maps.Polyline;
+            }) => {
+              if (
+                event.type === window.google.maps.drawing.OverlayType.POLYLINE
+              ) {
+                const polyline = event.overlay as google.maps.Polyline;
+                const lengthInMeters =
+                  google.maps.geometry.spherical.computeLength(
+                    polyline.getPath()
+                  );
 
-              overlay.addListener('click', () => {
-                overlay.setMap(null);
+                console.log(
+                  `Length of the line: ${lengthInMeters.toFixed(2)} meters`
+                );
+              }
+              event.overlay.addListener('click', () => {
+                event.overlay.setMap(null);
               });
             }
           );

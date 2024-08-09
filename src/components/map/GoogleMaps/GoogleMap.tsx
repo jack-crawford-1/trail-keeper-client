@@ -4,10 +4,12 @@ import { Loader } from '@googlemaps/js-api-loader';
 import { TrackSvg } from './svg/TrackSvg';
 import { HutSvg } from './svg/HutSvg';
 import TrackSearch from '../utils/TrackSearch';
-import LinzTopo from './LinzTopo';
-import addMarkers from './MapMarker';
-import createDrawingManager from './DrawingManager';
-import { handleTrackSelect } from './TrackSelect';
+import LinzTopo from './utils/LinzTopo';
+import addMarkers from './utils/MapMarker';
+import createDrawingManager from './utils/DrawingManager';
+import { handleTrackSelect } from './utils/TrackSelect';
+import { SetupMapTypesAndOverlays } from './utils/SetupMapTypesAndOverlays';
+import { SetupDrawingManager } from './utils/SetupDrawingManager';
 
 // TODO add ability to download gpx coordinates from the line drawn on the map
 // TODO add ability to save the line drawn on the map to a database and be viewed by other users / only the user who created the line
@@ -50,8 +52,6 @@ export default function GoogleMap(): JSX.Element {
           );
 
           const topoMapType = LinzTopo();
-          mapInstance.mapTypes.set('topo', topoMapType);
-          mapInstance.setMapTypeId('topo');
 
           const satelliteLayer = new window.google.maps.ImageMapType({
             getTileUrl: function (coord, zoom) {
@@ -61,38 +61,15 @@ export default function GoogleMap(): JSX.Element {
             opacity: sliderValue,
           });
 
-          satelliteMapTypeRef.current = satelliteLayer;
-          mapInstance.overlayMapTypes.insertAt(0, satelliteLayer);
+          SetupMapTypesAndOverlays(
+            mapInstance,
+            topoMapType,
+            satelliteLayer,
+            satelliteMapTypeRef
+          );
 
           const drawingManager = createDrawingManager(mapInstance);
-
-          drawingManager.setMap(mapInstance);
-
-          window.google.maps.event.addListener(
-            drawingManager,
-            'overlaycomplete',
-            (event: {
-              type: google.maps.drawing.OverlayType;
-              overlay: google.maps.Polyline;
-            }) => {
-              if (
-                event.type === window.google.maps.drawing.OverlayType.POLYLINE
-              ) {
-                const polyline = event.overlay as google.maps.Polyline;
-                const lengthInMeters =
-                  google.maps.geometry.spherical.computeLength(
-                    polyline.getPath()
-                  );
-
-                console.log(
-                  `Length of the line: ${lengthInMeters.toFixed(2)} meters`
-                );
-              }
-              event.overlay.addListener('click', () => {
-                event.overlay.setMap(null);
-              });
-            }
-          );
+          SetupDrawingManager(mapInstance, drawingManager);
 
           setMap(mapInstance);
 

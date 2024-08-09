@@ -1,5 +1,5 @@
-import { convertCoordinates } from '../utils/coordinateConverter';
-import { MapFeature } from '../../../interface/mapTypes';
+import { convertCoordinates } from '../../utils/coordinateConverter';
+import { MapFeature } from '../../../../interface/mapTypes';
 
 export default function MapMarker(
   map: google.maps.Map,

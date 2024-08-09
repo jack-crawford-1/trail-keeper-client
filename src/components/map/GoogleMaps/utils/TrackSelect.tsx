@@ -1,6 +1,6 @@
-import { fetchDocTrack } from '../../../api/fetchDocTrack';
-import { TrackTypes } from '../../../interface/mapTypes';
-import { convertCoordinates } from '../utils/coordinateConverter';
+import { fetchDocTrack } from '../../../../api/fetchDocTrack';
+import { TrackTypes } from '../../../../interface/mapTypes';
+import { convertCoordinates } from '../../utils/coordinateConverter';
 
 export async function handleTrackSelect(
   track: TrackTypes,
